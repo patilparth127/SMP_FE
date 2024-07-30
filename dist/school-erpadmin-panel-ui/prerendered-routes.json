@@ -1,0 +1,13 @@
+{
+  "routes": [
+    "/academic-board",
+    "/academic-program",
+    "/academic-term",
+    "/academic-year",
+    "/home",
+    "/login",
+    "/school-master",
+    "/section",
+    "/student-admission-form"
+  ]
+}

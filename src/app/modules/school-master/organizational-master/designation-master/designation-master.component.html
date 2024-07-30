@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staff Designation Master</title>
+  </head>
+  <body>
+    <div class="row m-1 p-3 shadow-box">
+      <div class="col-md-12">
+        <form
+          [formGroup]="StaffDesignationMasterForm"
+          (ngSubmit)="UpsertStaffDesignationMaster()"
+        >
+          <div>
+            <div class="row gx-5">
+              <div class="col-sm-12 col-md-4 col-lg-2">
+                <label for="staffDesignationName" class="form-label"
+                  >Staff Designation Name:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="staffDesignationName"
+                  name="staffDesignationName"
+                  formControlName="staffDesignationName"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="StaffDesignationName.errors?.['required']"
+                >
+                  Staff Designation Name is required
+                </div>
+              </div>
+
+              <div class="col-sm-12 col-md-4 col-lg-6">
+                <label for="staffDesignationDescription" class="form-label"
+                  >Description:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="staffDesignationDescription"
+                  name="staffDesignationDescription"
+                  formControlName="staffDesignationDescription"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="StaffDesignationDescription.errors?.['required']"
+                >
+                  Description is required
+                </div>
+              </div>
+              <div
+                class="col-xxs-6 col-xs-6 col-sm-6 col-md-4 col-lg-2 d-flex justify-content-end"
+              >
+                <div class="w-75 pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-label w-75"
+                    [disabled]="StaffDesignationMasterForm.invalid"
+                  >
+                    <i class="ri-save-3-fill label-icon align-middle"></i>
+                    {{ buttonLabel }}
+                  </button>
+                  <div
+                    class="form-text text-white"
+                    *ngIf="StaffDesignationName.errors?.['required'] || StaffDesignationDescription.errors?.['required']"
+                  >
+                    &nbsp
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-xxs-6 col-xs-6 col-sm-6 col-md-4 col-lg-2 d-flex justify-content-left"
+              >
+                <div class="w-75 pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <button
+                    type="button"
+                    class="btn btn-info btn-label w-75"
+                    (click)="ResetForm()"
+                  >
+                    <i class="ri-close-circle-fill label-icon align-middle"></i>
+                    Cancel
+                  </button>
+                  <div
+                    class="form-text text-white"
+                    *ngIf="StaffDesignationName.errors?.['required'] || StaffDesignationDescription.errors?.['required']"
+                  >
+                    &nbsp
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 d-none d-lg-block"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div>
+      <div class="table-responsive table-card mt-5 mb-1 m-0">
+        <table class="table align-middle table-nowrap">
+          <thead class="table-active bg-cyan-cornflower-blue">
+            <tr>
+              <th
+                (click)="sort('designationName')"
+                class="border-left-lightgray border-right-lightgray text-white sort cursor-pointer"
+              >
+                Designation Name
+              </th>
+              <th
+                (click)="sort('description')"
+                class="border-left-lightgray border-right-lightgray text-white sort cursor-pointer"
+              >
+                Designation Description
+              </th>
+              <th class="text-center border-right-lightgray text-white">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody class="list form-check-all">
+            <tr
+              *ngFor="let item of allStaffDesignationMaster"
+              [ngClass]="{
+                'highlight-row':
+                  item.staffDesignationMasterID ===
+                  selectedStaffDesignationMasterID
+              }"
+              (click)="HighlightSelectedRow(item.staffDesignationMasterID)"
+            >
+              <td class="border-left-lightgray border-right-lightgray">
+                {{ item.designationName }}
+              </td>
+              <td class="border-left-lightgray border-right-lightgray">
+                {{ item.description }}
+              </td>
+              <td
+                class="d-flex justify-content-center text-center border-right-lightgray"
+              >
+                <div class="d-flex gap-2">
+                  <div class="edit">
+                    <button
+                      class="btn btn-sm btn-success edit-item-btn"
+                      (click)="EditStaffDesignationMaster(item)"
+                    >
+                      <i class="ri ri-edit-2-fill label-icon align-middle"></i>
+                      Edit
+                    </button>
+                  </div>
+                  <div class="remove">
+                    <button
+                      class="btn btn-sm btn-danger remove-item-btn"
+                      (click)="
+                        RemoveStaffDesignationMaster(
+                          item.staffDesignationMasterID
+                        )
+                      "
+                    >
+                      <i
+                        class="ri ri-delete-back-2-fill label-icon align-middle"
+                      ></i>
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        *ngIf="
+          allStaffDesignationMaster && allStaffDesignationMaster.length <= 0
+        "
+      >
+        <div class="alert alert-info">No record found</div>
+      </div>
+    </div>
+  </body>
+</html>

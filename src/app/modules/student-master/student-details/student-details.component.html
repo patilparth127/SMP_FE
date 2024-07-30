@@ -1,0 +1,767 @@
+<app-master-page></app-master-page>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Master</title>
+  </head>
+  <body>
+    <div class="ml-5 pt-4 mt-5">
+      <div class="card">
+        <div class="main bg_light pt-5">
+          <div class="col-md-7 m-auto mb-5">
+            <div class="banner_image w-100">
+              <img
+                src="assets/images/all/student_details_banner.jpg"
+                class="h-100 w-100"
+              />
+            </div>
+            <div class="pt-5 pb-3 bg_lightcyan">
+              <div>
+                <img
+                  [src]="studentDetails.imagePath"
+                  class="ml-3 w-200px h-200px rounded-circle mt-m15pt"
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-10">
+                  <div>
+                    <h3
+                      class="fs-xl mt-2 mb-1 ml-3 w-200px d-flex justify-content-center"
+                    >
+                      {{ studentDetails.firstName }}
+                      {{ studentDetails.lastName }}
+                    </h3>
+                  </div>
+                  <div class="mt-1">
+                    <p
+                      class="fs-md text-muted mb-0 ml-3 w-200px d-flex justify-content-center"
+                    >
+                      {{ studentDetails.gradeName }} -
+                      {{ studentDetails.sectionName }}
+                    </p>
+                  </div>
+                </div>
+                <div class="col-md-2 float-end">
+                  <a
+                    (click)="editProfile(studentDetails)"
+                    class="btn btn-primary"
+                    ><i class="ri-edit-box-line align-bottom"></i> Edit
+                    Profile</a
+                  >
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="col-md-12">
+              <div class="tab-content text-muted mt-3 mt-lg-0">
+                <div
+                  class="tab-pane fade active show"
+                  id="custom-v-pills-home"
+                  role="tabpanel"
+                  aria-labelledby="custom-v-pills-home-tab"
+                >
+                  <div
+                    class="accordion accordion-border-box"
+                    id="basic-details-accordion"
+                  >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="heading-basic-details">
+                        <button
+                          class="accordion-button"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#div-basic-details"
+                          aria-expanded="true"
+                          aria-controls="div-basic-details"
+                        >
+                          Basic Details
+                        </button>
+                      </h2>
+                      <div
+                        id="div-basic-details"
+                        class="accordion-collapse collapse show"
+                        aria-labelledby="heading-basic-details"
+                        data-bs-parent="#basic-details-accordion"
+                      >
+                        <div class="accordion-body">
+                          <div class="col-md-6 table-responsive">
+                            <table class="table table-borderless mb-0">
+                              <tbody>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    School Email ID :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.studentSchoolEmailID }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Roll No :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.rollNo }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    First Name :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.firstName }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Last Name :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.lastName }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Gender :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.gender ? "Male" : "Female"
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Birth Date :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      formatDate_ddMMMyyyy(
+                                        studentDetails.birthDate
+                                      )
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Blood Group :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.bloodGroup }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Emergency Contact No :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.emergencyContactNo }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    WhatsApp Number :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.whatsappNumber }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Address :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      formatAddress(
+                                        studentDetails.houseNo,
+                                        studentDetails.societyName,
+                                        studentDetails.landmark,
+                                        studentDetails.area
+                                      )
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Pin code :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.zip }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">City :</th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.city }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    State :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.state }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Country :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.country }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    House :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.house }}
+                                  </td>
+                                </tr>
+
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Aadhar Card No :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.aadharCardNo }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Nationality :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.nationality }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Religion :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.religion }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Caste :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.caste }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Sub Caste :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.subCaste }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Resignation Date :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.resignationDate
+                                        | date : "dd MMM yyyy"
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    UDISE Number :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.UDISENumber }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    PEN Number :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.PENNumber }}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="col-md-12">
+              <div class="tab-content text-muted mt-3 mt-lg-0">
+                <div
+                  class="tab-pane fade active show"
+                  id="custom-v-pills-home"
+                  role="tabpanel"
+                  aria-labelledby="custom-v-pills-home-tab"
+                >
+                  <div
+                    class="accordion accordion-border-box"
+                    id="parents-details-accordion"
+                  >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="heading-parents-details">
+                        <button
+                          class="accordion-button"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#div-parents-details"
+                          aria-expanded="true"
+                          aria-controls="div-parents-details"
+                        >
+                          Parent's Details
+                        </button>
+                      </h2>
+                      <div
+                        id="div-parents-details"
+                        class="accordion-collapse collapse show"
+                        aria-labelledby="heading-parents-details"
+                        data-bs-parent="#parents-details-accordion"
+                      >
+                        <div class="accordion-body">
+                          <div class="col-md-6 table-responsive">
+                            <table class="table table-borderless mb-0">
+                              <tbody>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Parents School EmailID:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.parentsSchoolEmailID }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Father's Name:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.fathersName }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Father's Mobile No:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.fathersMobileNo }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Father's Personal EmailID:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.fathersPersonalEmailID }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Father's Employment Status:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.fathersEmploymentStatus }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Father's Employment Sector:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.fathersEmploymentSector }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Father's Specialty:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.fathersSpeciality }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Father's Occupation Profile:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.fathersOccupationProfile
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Father's Organization Name:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.fathersOrganizationName }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Father Can Offer Internship:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.fathersCanOfferInternship
+                                        ? "Yes"
+                                        : "No"
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Father Work Place Field Trip Permission:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.fathersWorkPlaceFieldTripPermission
+                                        ? "Yes"
+                                        : "No"
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Father's Work Place Info:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.fathersWorkPlaceInfo }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mother's Name:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.mothersName }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mother's Mobile No:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.mothersMobileNo }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mother's Personal EmailID:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.mothersPersonalEmailID }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mother's Employment Status:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.mothersEmploymentStatus }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mother's Employment Sector:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.mothersEmploymentSector }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mother's Specialty:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.mothersSpeciality }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mother's Occupation Profile:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.mothersOccupationProfile
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mother's Organization Name:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.mothersOrganizationName }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mother Can Offer Internship:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.mothersCanOfferInternship
+                                        ? "Yes"
+                                        : "No"
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mother Work Place Field Trip Permission:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.mothersWorkPlaceFieldTripPermission
+                                        ? "Yes"
+                                        : "No"
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mother's Work Place Info:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.mothersWorkPlaceInfo }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Guardian Name:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.guardianName }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Guardian Number:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.guardianNumber }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Guardian EmailID:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.guardianEmailID }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Guardian Relationship:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.guardianRelationship }}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="col-md-12">
+              <div class="tab-content text-muted mt-3 mt-lg-0">
+                <div
+                  class="tab-pane fade active show"
+                  id="custom-v-pills-home"
+                  role="tabpanel"
+                  aria-labelledby="custom-v-pills-home-tab"
+                >
+                  <div
+                    class="accordion accordion-border-box"
+                    id="other-details-accordion"
+                  >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="heading-other-details">
+                        <button
+                          class="accordion-button"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#div-other-details"
+                          aria-expanded="true"
+                          aria-controls="div-other-details"
+                        >
+                          Other Details
+                        </button>
+                      </h2>
+                      <div
+                        id="div-other-details"
+                        class="accordion-collapse collapse show"
+                        aria-labelledby="heading-other-details"
+                        data-bs-parent="#other-details-accordion"
+                      >
+                        <div class="accordion-body">
+                          <div class="col-md-6 table-responsive">
+                            <table class="table table-borderless mb-0">
+                              <tbody>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Special Need Child:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.isSpecialNeedChild
+                                        ? "Yes"
+                                        : "No"
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Handicape:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.isHandicape ? "Yes" : "No"
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mother Tongue:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.motherTongue }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Food Preference:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.foodPreference }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Food Restriction:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.foodRestriction }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    registration Number:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ studentDetails.admissionNumber }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    registration Inquiry Number:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.admissionInquiryNumber
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    registration Granted Date:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.admissionGrantedDate
+                                        | date : "dd MMM yyyy"
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Date of Join:
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      studentDetails.dateOfJoin
+                                        | date : "dd MMM yyyy"
+                                    }}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="col-md-12">
+              <div class="tab-content text-muted mt-3 mt-lg-0">
+                <div
+                  class="tab-pane fade active show"
+                  id="custom-v-pills-home"
+                  role="tabpanel"
+                  aria-labelledby="custom-v-pills-home-tab"
+                >
+                  <div
+                    class="accordion accordion-border-box"
+                    id="family-photo-accordion"
+                  >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="heading-family-photo">
+                        <button
+                          class="accordion-button"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#div-family-photo"
+                          aria-expanded="true"
+                          aria-controls="div-family-photo"
+                        >
+                          Family Photo
+                        </button>
+                      </h2>
+                      <div
+                        id="div-family-photo"
+                        class="accordion-collapse collapse show"
+                        aria-labelledby="heading-family-photo"
+                        data-bs-parent="#family-photo-accordion"
+                      >
+                        <div
+                          class="accordion-body d-flex justify-content-center"
+                        >
+                          <img
+                            src="{{ studentDetails.familyPhotoPath }}"
+                            alt="Family Photo"
+                            class="h-vh-75"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

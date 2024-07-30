@@ -1,0 +1,101 @@
+<app-master-page></app-master-page>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Organization Master</title>
+  </head>
+  <body>
+    <div class="ml-5 pt-4 mt-5">
+      <div class="card">
+        <div class="card-body">
+          <ul
+            class="nav nav-tabs nav-justified nav-border-top nav-border-top-success mb-3"
+            role="tablist"
+          >
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link active d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-organization-group"
+                role="tab"
+                aria-selected="false"
+                id="liGroup"
+              >
+                <i class="fas fa-calendar-alt align-middle me-1 px-1"></i
+                ><span>Organization Group</span>
+              </a>
+            </li>
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-organization-department"
+                role="tab"
+                aria-selected="false"
+              >
+                <i class="fas fa-chalkboard me-1 align-middle px-1"></i>
+                Organization Department
+              </a>
+            </li>
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-organization-team"
+                role="tab"
+                aria-selected="false"
+              >
+                <i class="fas fa-graduation-cap align-middle me-1 px-1"></i
+                >Organization Team
+              </a>
+            </li>
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-designation-master"
+                role="tab"
+                aria-selected="false"
+              >
+                <i class="fas fa-file-alt align-middle me-1 px-1"></i
+                >Staff Designation Master
+              </a>
+            </li>
+          </ul>
+          <div class="tab-content text-muted">
+            <div
+              class="tab-pane active"
+              id="nav-tab-organization-group"
+              role="tabpanel"
+            >
+              <app-organization-group></app-organization-group>
+            </div>
+            <div
+              class="tab-pane"
+              id="nav-tab-organization-department"
+              role="tabpanel"
+            >
+              <app-organization-department></app-organization-department>
+            </div>
+            <div
+              class="tab-pane"
+              id="nav-tab-organization-team"
+              role="tabpanel"
+            >
+              <app-organization-team></app-organization-team>
+            </div>
+            <div
+              class="tab-pane"
+              id="nav-tab-designation-master"
+              role="tabpanel"
+            >
+              <app-designation-master></app-designation-master>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

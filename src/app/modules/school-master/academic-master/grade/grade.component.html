@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academic Program</title>
+  </head>
+  <body>
+    <div class="row m-1 p-3 shadow-box">
+      <div class="col-md-12">
+        <form [formGroup]="GradeForm" (ngSubmit)="UpsertGrade()">
+          <div>
+            <div class="row gx-5">
+              <div class="col">
+                <label for="academicYear" class="form-label"
+                  >Academic Year:</label
+                >
+                <select
+                  class="form-select"
+                  id="academicYear"
+                  name="academicYear"
+                  formControlName="academicYear"
+                  (input)="AcademicYearInput()"
+                >
+                  <option [value]="0" [disabled]="true">
+                    Select Academic Year
+                  </option>
+                  <option
+                    *ngFor="let item of allAcademicYear; let i = index"
+                    [value]="item.academicYearID"
+                  >
+                    {{ item.academicYear }}
+                  </option>
+                </select>
+                <div class="form-text text-danger" *ngIf="isAcademicYearEmpty">
+                  Academic Year is required
+                </div>
+              </div>
+              <div class="col">
+                <label for="boardName" class="form-label">Board Name:</label>
+                <select
+                  *ngIf="allAcademicBoard"
+                  class="form-select"
+                  id="boardName"
+                  name="boardName"
+                  formControlName="boardName"
+                  (change)="fetchAllAcademicProgramByBoardID()"
+                  (input)="boardNameInput()"
+                >
+                  <option [value]="0" [disabled]="true">
+                    Select Board Name
+                  </option>
+                  <option
+                    *ngFor="let item of allAcademicBoard; let i = index"
+                    [value]="item.boardID"
+                  >
+                    {{ item.boardName }}
+                  </option>
+                </select>
+                <div class="form-text text-danger" *ngIf="isBoardNameEmpty">
+                  Board Name is required
+                </div>
+              </div>
+              <div class="col">
+                <label for="programName" class="form-label"
+                  >Program Name:</label
+                >
+                <select
+                  class="form-select"
+                  id="programName"
+                  formControlName="programName"
+                  [(ngModel)]="selectedAcademicProgram"
+                  (input)="programNameInput($event)"
+                >
+                  <option [value]="0" [disabled]="true">
+                    Select Program Name
+                  </option>
+                  <option
+                    *ngFor="let item of allAcademicProgram; let i = index"
+                    [value]="item.programID"
+                  >
+                    {{ item.programName }}
+                  </option>
+                </select>
+                <div class="form-text text-danger" *ngIf="isProgramNameEmpty">
+                  Program Name is required
+                </div>
+              </div>
+            </div>
+            <div class="row gx-5 mt-3">
+              <div class="col">
+                <label for="gradeName" class="form-label">Grade Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="gradeName"
+                  name="gradeName"
+                  formControlName="gradeName"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="
+                        GradeName.errors?.['required'] 
+                      "
+                >
+                  Grade Name is required
+                </div>
+              </div>
+              <div class="col">
+                <label for="gradeSeqNumber" class="form-label"
+                  >Grade Sequence Number:</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="gradeSeqNumber"
+                  name="gradeSeqNumber"
+                  formControlName="gradeSeqNumber"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="GradeSeqNumber.errors?.['required']"
+                >
+                  Grade Sequence Number is required
+                </div>
+              </div>
+              <div class="col d-flex justify-content-center">
+                <div class="w-100 pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-label w-25 mx-4"
+                    [disabled]="GradeForm.invalid"
+                  >
+                    <i class="ri-save-3-fill label-icon align-middle"></i>
+                    {{ buttonLabel }}
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-info btn-label w-25"
+                    (click)="ResetForm()"
+                  >
+                    <i class="ri-close-circle-fill label-icon align-middle"></i>
+                    Cancel
+                  </button>
+                  <div
+                    class="form-text text-white"
+                    *ngIf="isAcademicYearEmpty || isBoardNameEmpty || isProgramNameEmpty || GradeName.errors?.['required'] || GradeSeqNumber.errors?.['required']"
+                  >
+                    &nbsp
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <div class="container mt-5">
+          <div class="card">
+            <div class="card-header bg-light pt-2">
+              <h5 class="card-title p-2">Filter & Section</h5>
+            </div>
+            <div class="d-flex card-body">
+              <div class="col-md-2 m-2">
+                <label for="academicYearFilter" class="form-label"
+                  >Academic Year:</label
+                >
+                <select
+                  class="form-select"
+                  id="academicYearFilter"
+                  name="academicYearFilter"
+                  (change)="AcademicYearFilterChanged($event)"
+                  [(ngModel)]="selectedAcademicYearFilter"
+                >
+                  <option
+                    *ngFor="let item of allAcademicYearFilter"
+                    [value]="item.academicYearID"
+                  >
+                    {{ item.academicYear }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-2 m-2">
+                <label for="boardNameFilter" class="form-label"
+                  >Board Name:</label
+                >
+                <select
+                  class="form-select"
+                  id="boardNameFilter"
+                  name="boardNameFilter"
+                  (change)="BoardNameFilterChanged($event)"
+                  [(ngModel)]="selectedAcademicBoardFilter"
+                >
+                  <option
+                    *ngFor="let item of allAcademicBoardFilter; let i = index"
+                    [value]="item.boardID"
+                  >
+                    {{ item.boardName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="accordion">
+                <table class="table align-middle table-nowrap my-0">
+                  <thead class="table-active bg-cyan-cornflower-blue">
+                    <tr>
+                      <th
+                        (click)="sort('gradeName')"
+                        class="col-md-4 text-center border-right-lightgray text-white sort cursor-pointer"
+                      >
+                        Grade Name
+                      </th>
+                      <th
+                        (click)="sort('gradeSeqNo')"
+                        class="col-md-4 text-center border-right-lightgray text-white sort cursor-pointer"
+                      >
+                        Grade Sequence Number
+                      </th>
+                      <th
+                        class="col-md-4 text-center text-white"
+                        data-sort="action"
+                      >
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div
+                class="accordion custom-accordionwithicon accordion-fill-light"
+                id="accordionFill"
+              >
+                <div
+                  class="accordion-item"
+                  *ngFor="
+                    let itemAcademicProgram of allAcademicProgramFilter;
+                    let i = index
+                  "
+                >
+                  <ng-container *ngIf="itemAcademicProgram.programID > 0">
+                    <h2
+                      class="accordion-header"
+                      [id]="
+                        'accordionFillExample' + itemAcademicProgram.programID
+                      "
+                    >
+                      <button
+                        class="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        [attr.data-bs-target]="
+                          '#accor_fill' + itemAcademicProgram.programID
+                        "
+                        aria-expanded="true"
+                        [attr.aria-controls]="
+                          '#accor_fill' + itemAcademicProgram.programID
+                        "
+                      >
+                        {{ itemAcademicProgram.programName }}
+                      </button>
+                    </h2>
+                    <div
+                      [id]="'accor_fill' + itemAcademicProgram.programID"
+                      class="accordion-collapse collapse show"
+                      [attr.aria-labelledby]="
+                        'accordionFillExample' + itemAcademicProgram.programID
+                      "
+                      data-bs-parent="#accordionFill"
+                    >
+                      <div class="accordion-body py-0 my-0">
+                        <div>
+                          <div class="table-responsive table-card mt-0 mb-0">
+                            <table
+                              class="table align-middle table-nowrap py-0 my-0"
+                            >
+                              <tbody class="table-active list form-check-all">
+                                <tr
+                                  *ngFor="let itemGrade of allGrade"
+                                  [ngClass]="{
+                                    'highlight-row':
+                                      itemGrade.gradeID === selectedGradeID
+                                  }"
+                                  (click)="
+                                    HighlightSelectedRow(itemGrade.gradeID)
+                                  "
+                                >
+                                  <ng-container
+                                    *ngIf="
+                                      itemGrade.programID ==
+                                      itemAcademicProgram.programID
+                                    "
+                                  >
+                                    <td
+                                      class="col-md-4 text-center border-right-lightgray"
+                                    >
+                                      {{ itemGrade.gradeName }}
+                                    </td>
+                                    <td
+                                      class="col-md-4 text-center border-right-lightgray"
+                                    >
+                                      {{ itemGrade.gradeSeqNo }}
+                                    </td>
+                                    <td class="col-md-4">
+                                      <div
+                                        class="d-flex justify-content-center gap-2"
+                                      >
+                                        <div class="edit">
+                                          <button
+                                            class="btn btn-sm btn-success edit-item-btn"
+                                            (click)="EditGrade(itemGrade)"
+                                          >
+                                            <i
+                                              class="ri ri-edit-2-fill label-icon align-middle"
+                                            ></i>
+                                            Edit
+                                          </button>
+                                        </div>
+                                        <div class="remove">
+                                          <button
+                                            class="btn btn-sm btn-danger remove-item-btn"
+                                            (click)="
+                                              RemoveGrade(itemGrade.gradeID)
+                                            "
+                                          >
+                                            <i
+                                              class="ri ri-delete-back-2-fill label-icon align-middle"
+                                            ></i>
+                                            Remove
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </td>
+                                  </ng-container>
+                                </tr>
+                                <tr>
+                                  <div *ngIf="allGrade && allGrade.length <= 0">
+                                    <div class="alert alert-info">
+                                      No record found
+                                    </div>
+                                  </div>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+
+              <div
+                *ngIf="
+                  allAcademicProgramFilter &&
+                  allAcademicProgramFilter.length <= 0
+                "
+              >
+                <div class="alert alert-info mt-2">No record found</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,352 @@
+<app-master-page></app-master-page>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staff Master</title>
+  </head>
+  <body>
+    <div class="ml-5 pt-4 mt-5">
+      <div class="card">
+        <div class="main bg_light pt-5">
+          <div class="col-md-7 m-auto mb-5">
+            <div class="banner_image w-100">
+              <img
+                src="../assets/images/all/student_details_banner.jpg"
+                class="h-100 w-100"
+              />
+            </div>
+            <div class="pt-5 pb-3 bg_lightcyan">
+              <div>
+                <img
+                  [src]="staffDetails.image"
+                  class="ml-3 w-200px h-200px rounded-circle mt-m15pt"
+                />
+              </div>
+              <div class="mt-3">
+                <h3
+                  class="fs-xl mb-1 ml-3 w-200px d-flex justify-content-center"
+                >
+                  {{ staffDetails.firstName }} {{ staffDetails.lastName }}
+                </h3>
+                <p
+                  class="fs-md text-muted mb-0 ml-3 w-200px d-flex justify-content-center"
+                >
+                  {{ staffDetails.designation }}
+                </p>
+              </div>
+            </div>
+            <br />
+            <div class="col-md-12">
+              <div class="tab-content text-muted mt-3 mt-lg-0">
+                <div
+                  class="tab-pane fade active show"
+                  id="custom-v-pills-home"
+                  role="tabpanel"
+                  aria-labelledby="custom-v-pills-home-tab"
+                >
+                  <div
+                    class="accordion accordion-border-box"
+                    id="staff-details-accordion"
+                  >
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="heading-staff-details">
+                        <button
+                          class="accordion-button"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#div-staff-details"
+                          aria-expanded="true"
+                          aria-controls="div-staff-details"
+                        >
+                          Staff Details
+                        </button>
+                      </h2>
+                      <div
+                        id="div-staff-details"
+                        class="accordion-collapse collapse show"
+                        aria-labelledby="heading-staff-details"
+                        data-bs-parent="#staff-details-accordion"
+                      >
+                        <div class="accordion-body">
+                          <div class="col-md-6 table-responsive">
+                            <table class="table table-borderless mb-0">
+                              <tbody>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    School Email ID :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.schoolEmailID }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Group Name :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.groupName }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Department Name :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.departmentName }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Team Name :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.teamName }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Designation :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.designation }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Reporting To :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.reportingTo }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Reporting To Email :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.reportingToEmail }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Date Of Birth :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      formatDate_ddMMMyyyy(
+                                        staffDetails.dateOfBirth
+                                      )
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Gender :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      staffDetails.gender ? "Male" : "Female"
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Date Of Join :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      formatDate_ddMMMyyyy(
+                                        staffDetails.dateOfJoin
+                                      )
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Mobile :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.mobileNumber }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Emergency Contact No :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.emergencyContactNumber }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Blood Group :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.bloodGroup }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Shift Timing :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.shiftTiming }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Food Category :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.foodCategory }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Address :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      formatAddress(
+                                        staffDetails.houseNo,
+                                        staffDetails.societyName,
+                                        staffDetails.landmark,
+                                        staffDetails.area,
+                                        staffDetails.city,
+                                        staffDetails.zip
+                                      )
+                                    }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    State :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.state }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Country :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.country }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Pick Up Stop :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.pickupStop }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Drop Off Stop :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.dropoffStop }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Transport Type :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.transportType }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Medical condition :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.medicalCondition }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Alternate Telephone :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.alternateTelephone }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Personal Email :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.personalMail }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Marital Status :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.maritalStatus }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Pan Card :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.pancard }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Aadhar Card :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.aadharCard }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Emergency Contact Name :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.emergencyContactName }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Emergency Contact Number :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{ staffDetails.emergencyContactNumber }}
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <th class="ps-0 fs-md" scope="row">
+                                    Relation with you :
+                                  </th>
+                                  <td class="text-muted fs-sm">
+                                    {{
+                                      staffDetails.emergencyContactRelationWithYou
+                                    }}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

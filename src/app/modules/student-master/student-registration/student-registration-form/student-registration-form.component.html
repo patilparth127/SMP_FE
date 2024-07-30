@@ -1,0 +1,77 @@
+<app-master-page></app-master-page>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Master</title>
+  </head>
+  <body>
+    <div class="ml-5 pt-4 mt-5">
+      <div class="card">
+        <div class="card-body">
+          <ul
+            class="nav nav-tabs nav-justified nav-border-top nav-border-top-success mb-3"
+            role="tablist"
+          >
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link active d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-personal-details"
+                role="tab"
+                aria-selected="false"
+              >
+                <i class="fas fa-id-card align-middle me-1 px-1"></i
+                ><span>Basic Details</span>
+              </a>
+            </li>
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-parents-details"
+                role="tab"
+                aria-selected="false"
+              >
+                <i class="fas fa-id-card align-middle me-1 px-1"></i
+                ><span>Parent's Details</span>
+              </a>
+            </li>
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-other-details"
+                role="tab"
+                aria-selected="false"
+              >
+                <i class="fas fa-id-card align-middle me-1 px-1"></i
+                ><span>Other Details</span>
+              </a>
+            </li>
+          </ul>
+          <div class="tab-content text-muted">
+            <div
+              class="tab-pane active"
+              id="nav-tab-personal-details"
+              role="tabpanel"
+            >
+              <app-student-personal-details></app-student-personal-details>
+            </div>
+          </div>
+          <div class="tab-content text-muted">
+            <div class="tab-pane" id="nav-tab-parents-details" role="tabpanel">
+              <app-parents-details></app-parents-details>
+            </div>
+          </div>
+          <div class="tab-content text-muted">
+            <div class="tab-pane" id="nav-tab-other-details" role="tabpanel">
+              <app-other-details></app-other-details>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

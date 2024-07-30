@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academic Board</title>
+  </head>
+  <body>
+    <div class="row m-1 p-3 shadow-box">
+      <div class="col-md-12">
+        <form
+          [formGroup]="ParentsDetailsForm"
+          (ngSubmit)="SaveParentsDetails()"
+        >
+          <div>
+            <div class="row gx-5">
+              <!-- Parents School Email ID -->
+              <div class="col">
+                <label for="parentsSchoolEmailID" class="form-label"
+                  >Parents School Email ID:</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="parentsSchoolEmailID"
+                  name="parentsSchoolEmailID"
+                  formControlName="parentsSchoolEmailID"
+                  #parentsSchoolEmailIDInput
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="ParentsSchoolEmailID.errors?.['required']"
+                >
+                  Parents School Email ID is required
+                </div>
+              </div>
+              <div class="col"></div>
+              <div class="col"></div>
+              <div class="col"></div>
+            </div>
+            <div class="row gx-5 my-5">
+              <!-- Father's Name -->
+              <div class="col">
+                <label for="fathersName" class="form-label">Father's Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="fathersName"
+                  name="fathersName"
+                  formControlName="fathersName"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="FathersName.errors?.['required']"
+                >
+                  Father's Name is required
+                </div>
+              </div>
+              <!-- Father's Mobile No -->
+              <div class="col">
+                <label for="fathersMobileNo" class="form-label"
+                  >Father's Mobile No:</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="fathersMobileNo"
+                  name="fathersMobileNo"
+                  formControlName="fathersMobileNo"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="FathersMobileNo.errors?.['required']"
+                >
+                  Father's Mobile No is required
+                </div>
+              </div>
+              <!-- Father's Personal Email ID -->
+              <div class="col">
+                <label for="fathersPersonalEmailID" class="form-label"
+                  >Father's Personal Email ID:</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="fathersPersonalEmailID"
+                  name="fathersPersonalEmailID"
+                  formControlName="fathersPersonalEmailID"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="FathersPersonalEmailID.errors?.['required']"
+                >
+                  Father's Personal Email ID is required
+                </div>
+              </div>
+              <!-- Father's Employment Status -->
+              <div class="col">
+                <label for="fathersEmploymentStatus" class="form-label"
+                  >Father's Employment Status:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="fathersEmploymentStatus"
+                  name="fathersEmploymentStatus"
+                  formControlName="fathersEmploymentStatus"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="FathersEmploymentStatus.errors?.['required']"
+                >
+                  Father's Employment Status is required
+                </div> -->
+              </div>
+            </div>
+            <div class="row gx-5 my-5">
+              <!-- Father's Employment Sector -->
+              <div class="col">
+                <label for="fathersEmploymentSector" class="form-label"
+                  >Father's Employment Sector:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="fathersEmploymentSector"
+                  name="fathersEmploymentSector"
+                  formControlName="fathersEmploymentSector"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="FathersEmploymentSector.errors?.['required']"
+                >
+                  Father's Employment Sector is required
+                </div> -->
+              </div>
+              <!-- Father's Speciality closest to the Work -->
+              <div class="col">
+                <label for="fathersSpeciality" class="form-label"
+                  >Father's Speciality closest to the Work:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="fathersSpeciality"
+                  name="fathersSpeciality"
+                  formControlName="fathersSpeciality"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="FathersSpeciality.errors?.['required']"
+                >
+                  Father's Speciality is required
+                </div> -->
+              </div>
+              <!-- Father's Occupation Profile -->
+              <div class="col">
+                <label for="fathersOccupationProfile" class="form-label"
+                  >Father's Occupation Profile:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="fathersOccupationProfile"
+                  name="fathersOccupationProfile"
+                  formControlName="fathersOccupationProfile"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="FathersOccupationProfile.errors?.['required']"
+                >
+                  Father's Occupation Profile is required
+                </div> -->
+              </div>
+              <!-- Father's Organization Name -->
+              <div class="col">
+                <label for="fathersOrganizationName" class="form-label"
+                  >Father's Organization Name:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="fathersOrganizationName"
+                  name="fathersOrganizationName"
+                  formControlName="fathersOrganizationName"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="FathersOrganizationName.errors?.['required']"
+                >
+                  Father's Organization Name is required
+                </div> -->
+              </div>
+            </div>
+            <div class="row gx-5 my-5">
+              <!-- Father's Work Place Information -->
+              <div class="col">
+                <label for="fathersWorkPlaceInfo" class="form-label"
+                  >Father's Work Place Information:</label
+                >
+                <textarea
+                  class="form-control"
+                  id="fathersWorkPlaceInfo"
+                  name="fathersWorkPlaceInfo"
+                  formControlName="fathersWorkPlaceInfo"
+                ></textarea>
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="FathersWorkPlaceInfo.errors?.['required']"
+                >
+                  Father's Work Place Information is required
+                </div> -->
+              </div>
+              <div class="col">
+                <!-- Father's Can Offer Internship -->
+                <div class="col">
+                  <div class="form-check mt-4">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="fathersCanOfferInternship"
+                      name="fathersCanOfferInternship"
+                      formControlName="fathersCanOfferInternship"
+                    />
+                    <label
+                      class="form-check-label"
+                      for="Father's Can Offer Internship?"
+                      >Father's Can Offer Internship?</label
+                    >
+                  </div>
+                </div>
+                <!-- Father's Field Trip Permission -->
+                <div class="col">
+                  <div class="form-check mt-4">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="fathersWorkPlaceFieldTripPermission"
+                      name="fathersWorkPlaceFieldTripPermission"
+                      formControlName="fathersWorkPlaceFieldTripPermission"
+                    />
+                    <label
+                      class="form-check-label"
+                      for="fathersWorkPlaceFieldTripPermission"
+                      >Father's Can we bring our students to your workplace for a
+                      field trip?</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row gx-5">
+              <!-- Mother's Name -->
+              <div class="col">
+                <label for="mothersName" class="form-label">Mother's Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="mothersName"
+                  name="mothersName"
+                  formControlName="mothersName"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="MothersName.errors?.['required']"
+                >
+                  Mother's Name is required
+                </div>
+              </div>
+              <!-- Mother's Mobile No -->
+              <div class="col">
+                <label for="mothersMobileNo" class="form-label"
+                  >Mother's Mobile No:</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="mothersMobileNo"
+                  name="mothersMobileNo"
+                  formControlName="mothersMobileNo"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="MothersMobileNo.errors?.['required']"
+                >
+                  Mother's Mobile No is required
+                </div>
+              </div>
+              <!-- Mother's Personal Email ID -->
+              <div class="col">
+                <label for="mothersPersonalEmailID" class="form-label"
+                  >Mother's Personal Email ID:</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="mothersPersonalEmailID"
+                  name="mothersPersonalEmailID"
+                  formControlName="mothersPersonalEmailID"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="MothersPersonalEmailID.errors?.['required']"
+                >
+                  Mother's Personal Email ID is required
+                </div>
+              </div>
+              <!-- Mother's Employment Status -->
+              <div class="col">
+                <label for="mothersEmploymentStatus" class="form-label"
+                  >Mother's Employment Status:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="mothersEmploymentStatus"
+                  name="mothersEmploymentStatus"
+                  formControlName="mothersEmploymentStatus"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="MothersEmploymentStatus.errors?.['required']"
+                >
+                  Mother's Employment Status is required
+                </div> -->
+              </div>
+            </div>
+            <div class="row gx-5 my-5">
+              <!-- Mother's Employment Sector -->
+              <div class="col">
+                <label for="mothersEmploymentSector" class="form-label"
+                  >Mother's Employment Sector:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="mothersEmploymentSector"
+                  name="mothersEmploymentSector"
+                  formControlName="mothersEmploymentSector"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="MothersEmploymentSector.errors?.['required']"
+                >
+                  Mother's Employment Sector is required
+                </div> -->
+              </div>
+              <!-- Mother's Speciality closest to the Work -->
+              <div class="col">
+                <label for="mothersSpeciality" class="form-label"
+                  >Mother's Speciality closest to the Work:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="mothersSpeciality"
+                  name="mothersSpeciality"
+                  formControlName="mothersSpeciality"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="MothersSpeciality.errors?.['required']"
+                >
+                  Mother's Speciality closest to the Work is required
+                </div> -->
+              </div>
+              <!-- Mother's Occupation Profile -->
+              <div class="col">
+                <label for="mothersOccupationProfile" class="form-label"
+                  >Mother's Occupation Profile:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="mothersOccupationProfile"
+                  name="mothersOccupationProfile"
+                  formControlName="mothersOccupationProfile"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="MothersOccupationProfile.errors?.['required']"
+                >
+                  Mother's Occupation Profile is required
+                </div> -->
+              </div>
+              <!-- Mother's Organization Name -->
+              <div class="col">
+                <label for="mothersOrganizationName" class="form-label"
+                  >Mother's Organization Name:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="mothersOrganizationName"
+                  name="mothersOrganizationName"
+                  formControlName="mothersOrganizationName"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="MothersOrganizationName.errors?.['required']"
+                >
+                  Mother's Organization Name is required
+                </div> -->
+              </div>
+            </div>
+            <div class="row gx-5 my-5">
+              <!-- Mother's Work Place Information -->
+              <div class="col">
+                <label for="mothersWorkPlaceInfo" class="form-label"
+                  >Mother's Work Place Information:</label
+                >
+                <textarea
+                  class="form-control"
+                  id="mothersWorkPlaceInfo"
+                  name="mothersWorkPlaceInfo"
+                  formControlName="mothersWorkPlaceInfo"
+                ></textarea>
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="MothersWorkPlaceInfo.errors?.['required']"
+                >
+                  Mother's Work Place Information is required
+                </div> -->
+              </div>
+              <div class="col">
+                <!-- Mother's Can Offer Internship -->
+                <div class="col">
+                  <div class="form-check mt-4">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="mothersCanOfferInternship"
+                      name="mothersCanOfferInternship"
+                      formControlName="mothersCanOfferInternship"
+                    />
+                    <label
+                      class="form-check-label"
+                      for="mothersCanOfferInternship"
+                      >Mother's Can Offer Internship?</label
+                    >
+                  </div>
+                </div>
+                <!-- Mother's WorkPlace Field Trip Permission -->
+                <div class="col">
+                  <div class="form-check mt-4">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="mothersWorkPlaceFieldTripPermission"
+                      name="mothersWorkPlaceFieldTripPermission"
+                      formControlName="mothersWorkPlaceFieldTripPermission"
+                    />
+                    <label
+                      class="form-check-label"
+                      for="mothersWorkPlaceFieldTripPermission"
+                      >Mother's Can we bring our students to your workplace for a
+                      field trip?</label
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row gx-5 my-5">
+              <!-- Guardian Name -->
+              <div class="col">
+                <label for="guardianName" class="form-label"
+                  >Guardian Name:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="guardianName"
+                  name="guardianName"
+                  formControlName="guardianName"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="GuardianName.errors?.['required']"
+                >
+                  Guardian Name is required
+                </div> -->
+              </div>
+              <!-- Guardian Number -->
+              <div class="col">
+                <label for="guardianNumber" class="form-label"
+                  >Guardian Mobile Number:</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="guardianNumber"
+                  name="guardianNumber"
+                  formControlName="guardianNumber"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="GuardianNumber.errors?.['required']"
+                >
+                Guardian Mobile Number is required
+                </div> -->
+              </div>
+              <!-- Guardian Email ID -->
+              <div class="col">
+                <label for="guardianEmailID" class="form-label"
+                  >Guardian Email ID:</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="guardianEmailID"
+                  name="guardianEmailID"
+                  formControlName="guardianEmailID"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="GuardianEmailID.errors?.['required']"
+                >
+                  Guardian Email ID is required
+                </div> -->
+              </div>
+              <!-- Guardian Relationship -->
+              <div class="col">
+                <label for="guardianRelationship" class="form-label"
+                  >Guardian Relationship:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="guardianRelationship"
+                  name="guardianRelationship"
+                  formControlName="guardianRelationship"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="GuardianRelationship.errors?.['required']"
+                >
+                  Guardian Relationship is required
+                </div> -->
+              </div>
+            </div>
+            <div class="row gx-5 my-5">
+              <!-- Save, Next and Cancel Button -->
+              <div class="col d-flex justify-content-center m-auto">
+                <div class="w-100 m-auto pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-label mr-10px"
+                    [disabled]="ParentsDetailsForm.invalid"
+                  >
+                    <i
+                      class="ri-arrow-right-circle-fill label-icon align-middle"
+                    ></i>
+                    Save & Next
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-info btn-label"
+                    (click)="ResetForm()"
+                  >
+                    <i class="ri-close-circle-fill label-icon align-middle"></i>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+              <div class="col"></div>
+              <div class="col"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+<app-master-page></app-master-page>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Master</title>
+  </head>
+  <body>
+    <div class="ml-5 pt-4 mt-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="col-12">
+            <div
+              class="justify-content-between d-flex align-items-center mt-3 mb-4"
+            >
+              <h5 class="mb-0 pb-1 text-decoration-underline">Student List</h5>
+              <form [formGroup]="formGroup">
+                <input
+                  type="text"
+                  class="form-control w-200px float-end"
+                  id="freeTextSearch"
+                  name="freeTextSearch"
+                  formControlName="freeTextSearch"
+                  placeholder="Search..."
+                />
+              </form>
+            </div>
+            <!-- Pagination Start -->
+            <div class="d-flex align-items-center">
+              <div class="w-50 float-start">
+                <pagination-controls
+                  (pageChange)="onPageChange($event)"
+                ></pagination-controls>
+              </div>
+              <div class="w-25 float-start text-info">
+                {{ getRangeLabel() }}
+              </div>
+              <div class="w-25 d-flex justify-content-end view-buttons">
+                <button
+                  class="btn btn-outline-primary"
+                  (click)="toggleView('list')"
+                  [ngClass]="{ active: currentView === 'list' }"
+                >
+                  <i class="bi bi-list icon-large"></i>
+                </button>
+                <button
+                  class="btn btn-outline-primary"
+                  (click)="toggleView('card')"
+                  [ngClass]="{ active: currentView === 'card' }"
+                >
+                  <i class="bi bi-grid-3x3-gap-fill icon-large"></i>
+                </button>
+              </div>
+            </div>
+            <!-- Pagination End -->
+            <div *ngIf="currentView === 'list'">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Profile Picture</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="
+                      let student of lstStudentDetails
+                        | paginate
+                          : { itemsPerPage: recordsOnPage, currentPage: page }
+                    "
+                  >
+                    <td>
+                      <img
+                        [src]="student.imagePath"
+                        alt="Student Image"
+                        class="avatar-sm w-50px h-50px rounded-circle"
+                        (error)="onImageError($event)"
+                      />
+                    </td>
+                    <td>{{ student.firstName }}</td>
+                    <td>{{ student.lastName }}</td>
+                    <td>
+                      <a
+                        (click)="seeDetails(student)"
+                        class="btn btn-primary btn-sm"
+                        >See Details</a
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div
+              *ngIf="currentView === 'card'"
+              class="row row-cols-xxl-6 row-cols-lg-3 row-cols-1"
+            >
+              <div
+                class="col"
+                *ngFor="
+                  let student of lstStudentDetails
+                    | paginate
+                      : { itemsPerPage: recordsOnPage, currentPage: page }
+                "
+              >
+                <div class="card card-body">
+                  <div class="d-flex mb-2 align-items-center">
+                    <div
+                      class="flex-shrink-0 d-flex justify-content-center w-100"
+                    >
+                      <img
+                        [src]="student.imagePath"
+                        alt="Student Image"
+                        class="avatar-sm w-200px h-200px rounded-circle"
+                        (error)="onImageError($event)"
+                      />
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-2 d-flex justify-content-center">
+                    <h5 class="card-title mb-1">
+                      {{ student.firstName }} {{ student.lastName }}
+                    </h5>
+                  </div>
+                  <div class="mt-2">
+                    <a
+                      (click)="seeDetails(student)"
+                      class="btn btn-primary btn-sm w-100"
+                      >See Details</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pagination Start -->
+            <div class="d-flex align-items-center">
+              <div class="w-50 float-start">
+                <pagination-controls
+                  (pageChange)="onPageChange($event)"
+                ></pagination-controls>
+              </div>
+              <div class="w-25 float-start text-info">
+                {{ getRangeLabel() }}
+              </div>
+            </div>
+            <!-- Pagination End -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

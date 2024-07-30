@@ -1,0 +1,38 @@
+/* student-details.component.css */
+.bg_lightcyan {
+    background-color: lightcyan;
+}
+
+.bb_radius_10px {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.p-5 {
+    padding: 1rem;
+}
+
+.d-flex {
+    display: flex;
+    align-items: center;
+}
+
+.bg_light {
+    background-color: #e6eaed !important;
+}
+
+.bg_lightcyan {
+    background-color: lightcyan;
+}
+
+.mt-m15pt {
+    margin-top: -15%;
+}
+
+.w-200px {
+    width: 200px;
+}
+
+.h-200px {
+    height: 200px;
+}

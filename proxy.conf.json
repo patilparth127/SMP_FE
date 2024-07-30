@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "http://3.110.187.104:31166/",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

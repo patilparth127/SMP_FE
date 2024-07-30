@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academic Board</title>
+  </head>
+  <body>
+    <div class="row m-1 p-3 shadow-box">
+      <div class="col-md-12">
+        <form
+          [formGroup]="StudentOtherDetailsForm"
+          (ngSubmit)="SaveStudentOtherDetails()"
+        >
+          <div>
+            <div class="row gx-5">
+              <!-- Mother Tongue -->
+              <div class="col">
+                <label for="motherTongue" class="form-label"
+                  >Mother Tongue:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="motherTongue"
+                  name="motherTongue"
+                  formControlName="motherTongue"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="MotherTongue.errors?.['required']"
+                >
+                  Mother Tongue is required
+                </div> -->
+              </div>
+
+              <!-- Family Photo -->
+              <div class="col">
+                <label for="familyPhoto" class="form-label"
+                  >Family Photo:</label
+                >
+                <input
+                  type="file"
+                  class="form-control"
+                  id="familyPhoto"
+                  name="familyPhoto"
+                  (change)="onFileSelected($event)"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="FoodRestriction.errors?.['required']"
+                >
+                  Family Photo is required
+                </div> -->
+              </div>
+
+              <!-- Food Preference -->
+              <div class="col">
+                <label for="foodPreference" class="form-label"
+                  >Food Preference:</label
+                >
+                <select
+                  class="form-select"
+                  id="foodPreference"
+                  name="foodPreference"
+                  formControlName="foodPreference"
+                >
+                  <option value="">Select Food Preference</option>
+                  <option value="Veg">Veg</option>
+                  <option value="Jain">Jain</option>
+                </select>
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="FoodPreference.errors?.['required']"
+                >
+                  Food Preference is required
+                </div> -->
+              </div>
+
+              <!-- Food Restriction -->
+              <div class="col">
+                <label for="foodRestriction" class="form-label"
+                  >Food Restriction:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="foodRestriction"
+                  name="foodRestriction"
+                  formControlName="foodRestriction"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="FoodRestriction.errors?.['required']"
+                >
+                  Food Restriction is required
+                </div> -->
+              </div>
+            </div>
+            <div class="row gx-5 my-5">
+              <!-- Admission Number -->
+              <div class="col">
+                <label for="admissionNumber" class="form-label"
+                  >Admission Number:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="admissionNumber"
+                  name="admissionNumber"
+                  formControlName="admissionNumber"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="admissionNumber.errors?.['required']"
+                >
+                  Admission Number is required
+                </div> -->
+              </div>
+
+              <!-- Admission Inquiry Number -->
+              <div class="col">
+                <label for="admissionInquiryNumber" class="form-label"
+                  >Admission Inquiry Number:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="admissionInquiryNumber"
+                  name="admissionInquiryNumber"
+                  formControlName="admissionInquiryNumber"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="admissionInquiryNumber.errors?.['required']"
+                >
+                  Admission Inquiry Number is required
+                </div> -->
+              </div>
+
+              <!-- Admission Granted Date -->
+              <div class="col">
+                <label for="admissionGrantedDate" class="form-label"
+                  >Admission Granted Date:</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="admissionGrantedDate"
+                  name="admissionGrantedDate"
+                  formControlName="admissionGrantedDate"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="admissionGrantedDate.errors?.['required']"
+                >
+                  Admission Granted Date is required
+                </div> -->
+              </div>
+
+              
+            </div>
+            <div class="row gx-5 my-5">
+              <!-- Date Of Join -->
+              <div class="col">
+                <label for="dateOfJoin" class="form-label">Date Of Join:</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="dateOfJoin"
+                  name="dateOfJoin"
+                  formControlName="dateOfJoin"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="DateOfJoin.errors?.['required']"
+                >
+                  Date Of Join is required
+                </div> -->
+              </div>
+
+              <div class="col align-content-center">
+                <!-- Is Special Need Child -->
+                <div class="col d-flex align-items-end">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="isSpecialNeedChild"
+                      name="isSpecialNeedChild"
+                      formControlName="isSpecialNeedChild"
+                    />
+                    <label class="form-check-label" for="isSpecialNeedChild"
+                      >Is Special Need Child?</label
+                    >
+                  </div>
+                </div>
+
+                <!-- Is Handicap -->
+                <div class="col d-flex align-items-end">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="isHandicape"
+                      name="isHandicape"
+                      formControlName="isHandicape"
+                    />
+                    <label class="form-check-label" for="isHandicape"
+                      >Is Handicap?</label
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Save and Cancel Button -->
+              <div class="col d-flex justify-content-center m-auto">
+                <div class="w-100 m-auto pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-label mr-10px"
+                    [disabled]="StudentOtherDetailsForm.invalid"
+                  >
+                    <i
+                      class="ri-arrow-right-circle-fill label-icon align-middle"
+                    ></i>
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-info btn-label"
+                    (click)="ResetForm()"
+                  >
+                    <i class="ri-close-circle-fill label-icon align-middle"></i>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+
+              <div class="col"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

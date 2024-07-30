@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academic Term</title>
+  </head>
+  <body>
+    <div class="row m-1 p-3 shadow-box">
+      <div class="col-md-12">
+        <div class="alert alert-info">
+          <strong>Note:</strong> All the fields are required to save record. You
+          can edit record from below section i.e. Filter & Section.
+        </div>
+        <form [formGroup]="sectionForm" (ngSubmit)="UpsertSection()">
+          <div>
+            <div class="row gx-5">
+              <div class="col">
+                <label for="academicYear" class="form-label"
+                  >Academic Year:</label
+                >
+                <select
+                  class="form-select"
+                  id="academicYear"
+                  name="academicYear"
+                  formControlName="academicYear"
+                  (input)="AcademicYearInput()"
+                >
+                  <option [value]="0" [disabled]="true">
+                    Select Academic Year
+                  </option>
+                  <option
+                    *ngFor="let item of allAcademicYear; let i = index"
+                    [value]="item.academicYearID"
+                  >
+                    {{ item.academicYear }}
+                  </option>
+                </select>
+                <div class="form-text text-danger" *ngIf="isAcademicYearEmpty">
+                  Academic Year is required
+                </div>
+              </div>
+              <div class="col">
+                <label for="boardName" class="form-label">Board Name:</label>
+                <select
+                  class="form-select"
+                  id="boardName"
+                  name="boardName"
+                  formControlName="boardName"
+                  (change)="fetchAllAcademicProgramByBoardID()"
+                  (input)="boardNameInput()"
+                >
+                  <option [value]="0" [disabled]="true">
+                    Select Board Name
+                  </option>
+                  <option
+                    *ngFor="let item of allAcademicBoard; let i = index"
+                    [value]="item.boardID"
+                  >
+                    {{ item.boardName }}
+                  </option>
+                </select>
+                <div class="form-text text-danger" *ngIf="isBoardNameEmpty">
+                  Board Name is required
+                </div>
+              </div>
+              <div class="col">
+                <label for="programName" class="form-label"
+                  >Program Name:</label
+                >
+                <select
+                  class="form-select"
+                  id="programName"
+                  formControlName="programName"
+                  [(ngModel)]="selectedAcademicProgram"
+                  (input)="programNameInput($event)"
+                >
+                  <option [value]="0" [disabled]="true">
+                    Select Program Name
+                  </option>
+                  <option
+                    *ngFor="let item of allAcademicProgram; let i = index"
+                    [value]="item.programID"
+                  >
+                    {{ item.programName }}
+                  </option>
+                </select>
+                <div class="form-text text-danger" *ngIf="isProgramNameEmpty">
+                  Program Name is required
+                </div>
+              </div>
+              <div class="col">
+                <label for="grade" class="form-label">Grade:</label>
+                <select
+                  class="form-select"
+                  id="grade"
+                  formControlName="grade"
+                  [(ngModel)]="selectedGradeID"
+                >
+                  <option [value]="0" [disabled]="true">Select Grade</option>
+                  <option
+                    *ngFor="let gradeItem of allGrade; let i = index"
+                    [value]="gradeItem.gradeID"
+                  >
+                    {{ gradeItem.gradeName }}
+                  </option>
+                </select>
+                <div class="form-text text-danger" *ngIf="isGradeEmpty">
+                  Grade is required
+                </div>
+              </div>
+            </div>
+            <div class="row gx-5 mt-3">
+              <div class="col">
+                <label for="sectionName" class="form-label"
+                  >Section Name:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="sectionName"
+                  name="sectionName"
+                  formControlName="sectionName"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="
+                    sectionName.errors?.['required'] 
+                  "
+                >
+                  Section Name is required
+                </div>
+              </div>
+
+              <div class="col text-center m-auto">
+                <div class="w-100 pt-2">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-label w-40"
+                    [disabled]="sectionForm.invalid"
+                  >
+                    <i class="ri-save-3-fill label-icon align-middle"></i>
+                    {{ buttonLabel }}
+                  </button>
+
+                  <button
+                    type="button"
+                    class="btn btn-info btn-label w-40 mx-3"
+                    (click)="ResetForm()"
+                  >
+                    <i class="ri-close-circle-fill label-icon align-middle"></i>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+              <div class="col text-center m-auto"></div>
+              <div class="col text-center m-auto"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <div class="container mt-5">
+          <div class="card">
+            <div class="card-header bg-light pt-2">
+              <h5 class="card-title p-2">Filter & Section</h5>
+            </div>
+            <div class="d-flex card-body">
+              <div class="col-md-2 m-2">
+                <label for="academicYearFilter" class="form-label"
+                  >Academic Year:</label
+                >
+                <select
+                  class="form-select"
+                  id="academicYearFilter"
+                  name="academicYearFilter"
+                  (change)="AcademicYearFilterChanged($event)"
+                  [(ngModel)]="selectedAcademicYearFilter"
+                >
+                  <option
+                    *ngFor="let item of allAcademicYearFilter"
+                    [value]="item.academicYearID"
+                  >
+                    {{ item.academicYear }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-2 m-2">
+                <label for="boardNameFilter" class="form-label"
+                  >Board Name:</label
+                >
+                <select
+                  class="form-select"
+                  id="boardNameFilter"
+                  name="boardNameFilter"
+                  (change)="BoardNameFilterChanged($event)"
+                  [(ngModel)]="selectedAcademicBoardFilter"
+                >
+                  <option
+                    *ngFor="let item of allAcademicBoardFilter; let i = index"
+                    [value]="item.boardID"
+                  >
+                    {{ item.boardName }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-2 m-2">
+                <label for="programNameFilter" class="form-label"
+                  >Program Name:</label
+                >
+                <select
+                  class="form-select"
+                  id="programNameFilter"
+                  name="programNameFilter"
+                  (change)="ProgramNameFilterChanged($event)"
+                  [(ngModel)]="selectedAcademicProgramFilter"
+                >
+                  <option
+                    *ngFor="let item of allAcademicProgramFilter; let i = index"
+                    [value]="item.programID"
+                  >
+                    {{ item.programName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="accordion">
+                <table class="table align-middle table-nowrap my-0">
+                  <thead class="table-active bg-cyan-cornflower-blue">
+                    <tr>
+                      <th
+                        (click)="sort('sectionName')"
+                        class="col-md-3 text-center border-right-lightgray text-white sort cursor-pointer"
+                      >
+                        Section Name
+                      </th>
+                      <th class="col-md-3 text-center text-white">Action</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div
+                class="accordion custom-accordionwithicon accordion-fill-light"
+                id="accordionFill"
+              >
+                <div
+                  class="accordion-item"
+                  *ngFor="let gradeItem of allGradeForGrid; let i = index"
+                >
+                  <ng-container *ngIf="gradeItem.gradeID > 0">
+                    <h2
+                      class="accordion-header"
+                      [id]="'accordionFillExample' + gradeItem.gradeID"
+                    >
+                      <button
+                        class="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        [attr.data-bs-target]="
+                          '#accor_fill' + gradeItem.gradeID
+                        "
+                        aria-expanded="true"
+                        [attr.aria-controls]="'#accor_fill' + gradeItem.gradeID"
+                      >
+                        {{ gradeItem.gradeName }}
+                      </button>
+                    </h2>
+                    <div
+                      [id]="'accor_fill' + gradeItem.gradeID"
+                      class="accordion-collapse collapse show"
+                      [attr.aria-labelledby]="
+                        'accordionFillExample' + gradeItem.gradeID
+                      "
+                      data-bs-parent="#accordionFill"
+                    >
+                      <div class="accordion-body py-0">
+                        <div>
+                          <div class="table-responsive table-card mt-0 mb-0">
+                            <table class="table align-middle table-nowrap my-0">
+                              <tbody class="table-active list form-check-all">
+                                <tr
+                                  *ngFor="let sectionItem of allSection"
+                                  [ngClass]="{
+                                    'highlight-row':
+                                      sectionItem.sectionID ===
+                                      selectedSectionID
+                                  }"
+                                  (click)="
+                                    HighlightSelectedRow(sectionItem.sectionID)
+                                  "
+                                >
+                                  <ng-container
+                                    *ngIf="
+                                      sectionItem.gradeID == gradeItem.gradeID
+                                    "
+                                  >
+                                    <td
+                                      class="col-md-3 text-center border-right-lightgray"
+                                    >
+                                      {{ sectionItem.sectionName }}
+                                    </td>
+                                    <td class="col-md-3">
+                                      <div
+                                        class="d-flex justify-content-center gap-2"
+                                      >
+                                        <div class="edit">
+                                          <button
+                                            class="btn btn-sm btn-success edit-item-btn"
+                                            (click)="EditSection(sectionItem)"
+                                          >
+                                            <i
+                                              class="ri ri-edit-2-fill label-icon align-middle"
+                                            ></i>
+                                            Edit
+                                          </button>
+                                        </div>
+                                        <div class="remove">
+                                          <button
+                                            class="btn btn-sm btn-danger remove-item-btn"
+                                            (click)="
+                                              RemoveSection(
+                                                sectionItem.sectionID
+                                              )
+                                            "
+                                          >
+                                            <i
+                                              class="ri ri-delete-back-2-fill label-icon align-middle"
+                                            ></i>
+                                            Remove
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </td>
+                                  </ng-container>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+                <div
+                  *ngIf="
+                    allAcademicProgramFilter &&
+                    allAcademicProgramFilter.length <= 0
+                  "
+                >
+                  <div class="alert alert-info mt-2">No record found</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

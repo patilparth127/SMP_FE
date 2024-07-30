@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academic Board</title>
+    
+  </head>
+  <body>
+    <div class="row m-1 p-3 shadow-box">
+      <div class="col-md-12">
+        <form
+          [formGroup]="AcademicBoardForm"
+          (ngSubmit)="UpsertAcademicBoard()"
+        >
+          <div>
+            <div class="row gx-5">
+              <div class="col">
+                <label for="boardName" class="form-label">Board Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="boardName"
+                  name="boardName"
+                  formControlName="boardName"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="BoardName.errors?.['required']"
+                >
+                  Board Name is Required
+                </div>
+              </div>
+              <div class="col d-flex justify-content-center m-auto">
+                <div class="w-100 m-auto pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-label w-40 mx-4"
+                    [disabled]="AcademicBoardForm.invalid"
+                  >
+                    <i class="ri-save-3-fill label-icon align-middle"></i>
+                    {{ buttonLabel }}
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-info btn-label w-40"
+                    (click)="ResetForm()"
+                  >
+                    <i class="ri-close-circle-fill label-icon align-middle"></i>
+                    Cancel
+                  </button>
+                  <div
+                    class="form-text text-white"
+                    *ngIf="BoardName.errors?.['required'] || BoardName.errors?.['required']"
+                  >
+                    &nbsp
+                  </div>
+                </div>
+              </div>
+              <div class="col d-flex justify-content-start m-auto"></div>
+              <div class="col d-flex justify-content-start m-auto"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div>
+        <div class="table-responsive table-card mt-5 mb-1 m-0">
+          <table class="table align-middle table-nowrap">
+            <thead class="table-active bg-cyan-cornflower-blue">
+              <tr>
+                <th
+                  (click)="sort('boardName')"
+                  class="border-left-lightgray border-right-lightgray text-white sort cursor-pointer"
+                >
+                  Academic Board
+                </th>
+                <th class="text-center border-right-lightgray text-white">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody class="list form-check-all">
+              <tr
+                *ngFor="let academicBoard of allAcademicBoard"
+                [ngClass]="{
+                  'highlight-row': academicBoard.boardID === selectedBoardID
+                }"
+                (click)="HighlightSelectedRow(academicBoard.boardID)"
+              >
+                <td class="border-left-lightgray border-right-lightgray">
+                  {{ academicBoard.boardName }}
+                </td>
+                <td
+                  class="d-flex justify-content-center text-center border-right-lightgray"
+                >
+                  <div class="d-flex gap-2">
+                    <div class="edit">
+                      <button
+                        class="btn btn-sm btn-success edit-item-btn"
+                        (click)="EditAcademicBoard(academicBoard)"
+                      >
+                        <i
+                          class="ri ri-edit-2-fill label-icon align-middle"
+                        ></i>
+                        Edit
+                      </button>
+                    </div>
+                    <div class="remove">
+                      <button
+                        class="btn btn-sm btn-danger remove-item-btn"
+                        (click)="RemoveAcademicBoard(academicBoard)"
+                      >
+                        <i
+                          class="ri ri-delete-back-2-fill label-icon align-middle"
+                        ></i>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="allAcademicBoard && allAcademicBoard.length <= 0">
+          <div class="alert alert-info">No record found</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

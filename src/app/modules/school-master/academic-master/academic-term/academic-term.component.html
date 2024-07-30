@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academic Term</title>
+  </head>
+  <body>
+    <div class="row m-1 p-3 shadow-box">
+      <div class="col-md-12">
+        <div class="alert alert-info">
+          <strong>Note:</strong> All the fields are required to save record. You
+          can edit record from below Filter & Academic Terms section.
+        </div>
+        <form [formGroup]="academicTermForm" (ngSubmit)="UpsertAcademicTerm()">
+          <div>
+            <div class="row gx-5">
+              <div class="col">
+                <label for="academicYear" class="form-label"
+                  >Academic Year:</label
+                >
+                <select
+                  class="form-select"
+                  id="academicYear"
+                  name="academicYear"
+                  formControlName="academicYear"
+                  (input)="AcademicYearInput()"
+                >
+                  <option [value]="0" [disabled]="true">
+                    Select Academic Year
+                  </option>
+                  <option
+                    *ngFor="let item of allAcademicYear; let i = index"
+                    [value]="item.academicYearID"
+                  >
+                    {{ item.academicYear }}
+                  </option>
+                </select>
+                <div class="form-text text-danger" *ngIf="isAcademicYearEmpty">
+                  Academic Year is required
+                </div>
+              </div>
+              <div class="col">
+                <label for="boardName" class="form-label">Board Name:</label>
+                <select
+                  class="form-select"
+                  id="boardName"
+                  name="boardName"
+                  formControlName="boardName"
+                  (change)="fetchAllAcademicProgramByBoardID()"
+                  (input)="boardNameInput()"
+                >
+                  <option [value]="0" [disabled]="true">
+                    Select Board Name
+                  </option>
+                  <option
+                    *ngFor="let item of allAcademicBoard; let i = index"
+                    [value]="item.boardID"
+                  >
+                    {{ item.boardName }}
+                  </option>
+                </select>
+                <div class="form-text text-danger" *ngIf="isBoardNameEmpty">
+                  Board Name is required
+                </div>
+              </div>
+              <div class="col">
+                <label for="programName" class="form-label"
+                  >Program Name:</label
+                >
+                <select
+                  class="form-select"
+                  id="programName"
+                  formControlName="programName"
+                  [(ngModel)]="selectedAcademicProgram"
+                  (input)="programNameInput()"
+                >
+                  <option [value]="0" [disabled]="true">
+                    Select Program Name
+                  </option>
+                  <option
+                    *ngFor="let item of allAcademicProgram; let i = index"
+                    [value]="item.programID"
+                  >
+                    {{ item.programName }}
+                  </option>
+                </select>
+                <div class="form-text text-danger" *ngIf="isProgramNameEmpty">
+                  Program Name is required
+                </div>
+              </div>
+              <div
+                class="col d-flex justify-content-center align-baseline"
+              ></div>
+            </div>
+            <div class="row gx-5 mt-3">
+              <div class="col">
+                <label for="termName" class="form-label">Term Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="termName"
+                  name="termName"
+                  formControlName="termName"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="
+                    TermName.errors?.['required'] 
+                  "
+                >
+                  Term Name is required
+                </div>
+              </div>
+              <div class="col">
+                <label for="fromDate" class="form-label">From Date:</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fromDate"
+                  name="fromDate"
+                  formControlName="fromDate"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="FromDate.errors?.['required']"
+                >
+                  From Date is required
+                </div>
+              </div>
+              <div class="col">
+                <label for="toDate" class="form-label">To Date:</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="toDate"
+                  name="toDate"
+                  formControlName="toDate"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="ToDate.errors?.['required']"
+                >
+                  To Date is required
+                </div>
+              </div>
+              <div class="col text-center m-auto">
+                <div class="w-100 pt-2">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-label w-40"
+                    [disabled]="academicTermForm.invalid"
+                  >
+                    <i class="ri-save-3-fill label-icon align-middle"></i>
+                    {{ buttonLabel }}
+                  </button>
+
+                  <button
+                    type="button"
+                    class="btn btn-info btn-label w-40 mx-3"
+                    (click)="ResetForm()"
+                  >
+                    <i class="ri-close-circle-fill label-icon align-middle"></i>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <div class="container mt-5">
+          <div class="card">
+            <div class="card-header bg-light pt-2">
+              <h5 class="card-title p-2">Filter & Academic Terms</h5>
+            </div>
+            <div class="d-flex card-body">
+              <div class="col-md-2 m-2">
+                <label for="academicYearFilter" class="form-label"
+                  >Academic Year:</label
+                >
+                <select
+                  class="form-select"
+                  id="academicYearFilter"
+                  name="academicYearFilter"
+                  (change)="AcademicYearFilterChanged($event)"
+                  [(ngModel)]="selectedAcademicYearFilter"
+                >
+                  <option
+                    *ngFor="let item of allAcademicYearFilter"
+                    [value]="item.academicYearID"
+                  >
+                    {{ item.academicYear }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-2 m-2">
+                <label for="boardNameFilter" class="form-label"
+                  >Board Name:</label
+                >
+                <select
+                  class="form-select"
+                  id="boardNameFilter"
+                  name="boardNameFilter"
+                  (change)="BoardNameFilterChanged($event)"
+                  [(ngModel)]="selectedAcademicBoardFilter"
+                >
+                  <option
+                    *ngFor="let item of allAcademicBoardFilter; let i = index"
+                    [value]="item.boardID"
+                  >
+                    {{ item.boardName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="accordion">
+                <table class="table align-middle table-nowrap my-0">
+                  <thead class="table-active bg-cyan-cornflower-blue">
+                    <tr>
+                      <th
+                        (click)="sort('termName')"
+                        class="col-md-3 text-center border-right-lightgray text-white sort cursor-pointer"
+                      >
+                        Term Name
+                      </th>
+                      <th
+                        (click)="sort('fromDate')"
+                        class="col-md-3 text-center border-right-lightgray text-white sort cursor-pointer"
+                      >
+                        From Date
+                      </th>
+                      <th
+                        (click)="sort('toDate')"
+                        class="col-md-3 text-center border-right-lightgray text-white sort cursor-pointer"
+                      >
+                        To Date
+                      </th>
+                      <th class="col-md-3 text-center text-white">Action</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div
+                class="accordion custom-accordionwithicon accordion-fill-light"
+                id="accordionFill"
+              >
+                <div
+                  class="accordion-item"
+                  *ngFor="let item of allAcademicProgramFilter; let i = index"
+                >
+                  <ng-container *ngIf="item.programID > 0">
+                    <h2
+                      class="accordion-header"
+                      [id]="'accordionFillExample' + item.programID"
+                    >
+                      <button
+                        class="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        [attr.data-bs-target]="'#accor_fill' + item.programID"
+                        aria-expanded="true"
+                        [attr.aria-controls]="'#accor_fill' + item.programID"
+                      >
+                        {{ item.programName }}
+                      </button>
+                    </h2>
+                    <div
+                      [id]="'accor_fill' + item.programID"
+                      class="accordion-collapse collapse show"
+                      [attr.aria-labelledby]="
+                        'accordionFillExample' + item.programID
+                      "
+                      data-bs-parent="#accordionFill"
+                    >
+                      <div class="accordion-body py-0">
+                        <div>
+                          <div class="table-responsive table-card mt-0 mb-0">
+                            <table class="table align-middle table-nowrap my-0">
+                              <tbody class="table-active list form-check-all">
+                                <tr
+                                  *ngFor="let academicTerm of allAcademicTerm"
+                                  [ngClass]="{
+                                    'highlight-row':
+                                      academicTerm.termID ===
+                                      selectedAcademicTermID
+                                  }"
+                                  (click)="
+                                    HighlightSelectedRow(academicTerm.termID)
+                                  "
+                                >
+                                  <ng-container
+                                    *ngIf="
+                                      academicTerm.programID == item.programID
+                                    "
+                                  >
+                                    <td
+                                      class="col-md-3 text-center border-right-lightgray"
+                                    >
+                                      {{ academicTerm.termName }}
+                                    </td>
+                                    <td
+                                      class="col-md-3 text-center border-right-lightgray"
+                                    >
+                                      {{
+                                        convertToDateInDDMMYYYYFormat(
+                                          academicTerm.fromDate
+                                        )
+                                      }}
+                                    </td>
+                                    <td
+                                      class="col-md-3 text-center border-right-lightgray"
+                                    >
+                                      {{
+                                        convertToDateInDDMMYYYYFormat(
+                                          academicTerm.toDate
+                                        )
+                                      }}
+                                    </td>
+                                    <td class="col-md-3">
+                                      <div
+                                        class="d-flex justify-content-center gap-2"
+                                      >
+                                        <div class="edit">
+                                          <button
+                                            class="btn btn-sm btn-success edit-item-btn"
+                                            (click)="
+                                              EditAcademicTerm(academicTerm)
+                                            "
+                                          >
+                                            <i
+                                              class="ri ri-edit-2-fill label-icon align-middle"
+                                            ></i>
+                                            Edit
+                                          </button>
+                                        </div>
+                                        <div class="remove">
+                                          <button
+                                            class="btn btn-sm btn-danger remove-item-btn"
+                                            (click)="
+                                              RemoveAcademicTerm(
+                                                academicTerm.termID
+                                              )
+                                            "
+                                          >
+                                            <i
+                                              class="ri ri-delete-back-2-fill label-icon align-middle"
+                                            ></i>
+                                            Remove
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </td>
+                                  </ng-container>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+                <div
+                  *ngIf="
+                    allAcademicProgramFilter &&
+                    allAcademicProgramFilter.length <= 0
+                  "
+                >
+                  <div class="alert alert-info mt-2">No record found</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

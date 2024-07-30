@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  data-layout="vertical"
+  data-sidebar="dark"
+  data-sidebar-size="lg"
+  data-preloader="disable"
+  data-bs-theme="light"
+>
+  <head>
+    <meta charset="utf-8" />
+    <title>Sign In | School ERP System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="Minimal Admin & Dashboard Template" name="description" />
+  </head>
+
+  <body>
+    <section
+      class="auth-page-wrapper py-5 position-relative bg-light d-flex align-items-center justify-content-center min-vh-100"
+    >
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-11">
+            <div class="card mb-0">
+              <div class="card-body">
+                <div class="col-md-12">
+                  <div class="col-md-6 float-start">
+                    <div class="card mb-0 border-0 shadow-none mb-0">
+                      <div class="card-body p-sm-5 m-lg-4">
+                        <div class="text-center mt-5">
+                          <h5 class="fs-3xl">Welcome Back</h5>
+                          <p class="text-muted">
+                            Sign in to continue to School ERP System.
+                          </p>
+                        </div>
+                        <div class="mt-4 pt-2 text-center">
+                          <div class="signin-other-title position-relative">
+                            <h5 class="fs-sm mb-4 title">Sign In with</h5>
+                          </div>
+                          <div
+                            class="ddl_sign_in_with pt-2 hstack gap-2 justify-content-center"
+                          >
+                            <button
+                              type="button"
+                              class="btn btn-subtle-primary btn-icon active"
+                              [class.active]="
+                                loginMethod === 'UserNameNPassword'
+                              "
+                              data-value="btn_signin_username"
+                              (click)="showUsernameForm()"
+                              data-toggle="tooltip"
+                              title="Sign in with Username and Password"
+                            >
+                              <i
+                                class="bi bi-person-fill fs-lg"
+                                matTooltip="Login with Username and Password"
+                              ></i>
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-subtle-danger btn-icon"
+                              [class.active]="loginMethod === 'Email'"
+                              data-value="btn_signin_email"
+                              (click)="showEmailForm()"
+                              data-toggle="tooltip"
+                              title="Sign in with Email"
+                            >
+                              <i class="bi bi-envelope-fill fs-lg"></i>
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-subtle-dark btn-icon"
+                              [class.active]="loginMethod === 'Mobile'"
+                              data-value="btn_signin_mobile"
+                              (click)="showMobileForm()"
+                              data-toggle="tooltip"
+                              title="Sign in with Mobile number"
+                            >
+                              <i class="bi bi-phone-fill fs-lg"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="p-2 mt-5">
+                          <form
+                            [formGroup]="loginForm"
+                            (ngSubmit)="loginFormSubmited()"
+                          >
+                            <div
+                              class="mb-3"
+                              *ngIf="loginMethod === 'UserNameNPassword'"
+                            >
+                              <div class="input-group">
+                                <span class="input-group-text" id="basic-addon"
+                                  ><i class="ri-user-3-line"></i
+                                ></span>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="username"
+                                  placeholder="Enter Username"
+                                  formControlName="username"
+                                  (input)="enableLoginButton()"
+                                />
+                              </div>
+                              <div
+                                class="form-text text-danger"
+                                *ngIf="Username.errors?.['required'] && (Username.dirty || Email.touched)"
+                              >
+                                Username is Required
+                              </div>
+                            </div>
+                            <div
+                              class="mb-3"
+                              *ngIf="loginMethod === 'UserNameNPassword'"
+                            >
+                              <div
+                                class="position-relative auth-pass-inputgroup overflow-hidden"
+                              >
+                                <div class="input-group">
+                                  <span
+                                    class="input-group-text"
+                                    id="basic-addon1"
+                                    ><i class="ri-lock-2-line"></i
+                                  ></span>
+                                  <input
+                                    type="{{
+                                      hidePassword ? 'password' : 'text'
+                                    }}"
+                                    class="form-control pe-5 password-input"
+                                    placeholder="Enter Password"
+                                    id="pwd"
+                                    formControlName="pwd"
+                                    (input)="enableLoginButton()"
+                                  />
+                                </div>
+                                <div
+                                  class="form-text text-danger"
+                                  *ngIf="PWD.errors?.['required'] && (PWD.dirty || PWD.touched)"
+                                >
+                                  Password is Required
+                                </div>
+                                <div
+                                  class="form-text text-danger"
+                                  *ngIf="PWD.errors?.['minlength'] ||PWD.errors?.['maxlength']&& (PWD.dirty || PWD.touched)"
+                                >
+                                  Password should be atleast 6 and at the max 15
+                                  characters long.
+                                </div>
+                                <button
+                                  class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
+                                  type="button"
+                                  (click)="togglePassword()"
+                                >
+                                  <i class="ri-eye-fill align-middle"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <div class="mb-3" *ngIf="loginMethod === 'Email'">
+                              <div class="input-group">
+                                <span class="input-group-text" id="basic-addon">
+                                  <i class="bi bi-envelope"></i>
+                                </span>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="email"
+                                  placeholder="Enter Email"
+                                  formControlName="email"
+                                  (input)="enableLoginButton()"
+                                />
+                              </div>
+                              <div
+                                class="form-text text-danger"
+                                *ngIf="Email.errors?.['required'] && (Email.dirty || Email.touched)"
+                              >
+                                Email is Required
+                              </div>
+                              <div
+                                class="form-text text-danger"
+                                *ngIf="Email.errors?.['email'] && (Email.dirty || Email.touched)"
+                              >
+                                Email is Invalid
+                              </div>
+                            </div>
+                            <div class="mb-3" *ngIf="loginMethod === 'Mobile'">
+                              <div class="input-group">
+                                <span class="input-group-text" id="basic-addon"
+                                  ><i class="bi bi-phone"></i
+                                ></span>
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="mobile"
+                                  placeholder="Enter Mobile No"
+                                  formControlName="mobile"
+                                  (input)="enableLoginButton()"
+                                />
+                              </div>
+                              <div
+                                class="form-text text-danger"
+                                *ngIf="Mobile.errors?.['required'] && (Mobile.dirty || PWD.touched)"
+                              >
+                                Mobile Number is Required
+                              </div>
+                              <div
+                                class="form-text text-danger"
+                                *ngIf="Mobile.errors?.['minlength'] ||Mobile.errors?.['maxlength']&& (Mobile.dirty || PWD.touched)"
+                              >
+                                Mobile number should be 10 characters long.
+                              </div>
+                            </div>
+                            <div class="mb-3" *ngIf="isOTPDivShown">
+                              <div class="input-group">
+                                <span class="input-group-text" id="basic-addon">
+                                  <i class="ri-lock-2-line"></i>
+                                </span>
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  id="otp"
+                                  placeholder="Enter OTP"
+                                  formControlName="otp"
+                                  (input)="enableLoginButton()"
+                                />
+                              </div>
+                              <div
+                                class="form-text text-danger"
+                                *ngIf="OTP.errors?.['required'] && (OTP.dirty || OTP.touched)"
+                              >
+                                Please enter OTP
+                              </div>
+                              <div
+                                class="form-text text-danger"
+                                *ngIf="OTP.errors?.['otp'] && (OTP.dirty || OTP.touched)"
+                              >
+                                OTP is Invalid
+                              </div>
+                            </div>
+                            <div class="float-end">
+                              <a href="auth-pass-reset.html" class="text-muted"
+                                >Forgot password?</a
+                              >
+                            </div>
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                value=""
+                                id="auth-remember-check"
+                              />
+                              <label
+                                class="form-check-label"
+                                for="auth-remember-check"
+                                >Remember me</label
+                              >
+                            </div>
+                            <div class="mt-4" *ngIf="isGetOtpBtnShown">
+                              <button
+                                class="btn btn-primary w-100"
+                                type="submit"
+                                [disabled]="disableLoginButton"
+                              >
+                                Get OTP
+                              </button>
+                            </div>
+                            <div class="mt-4" *ngIf="isLoginBtnShown">
+                              <button
+                                class="btn btn-primary w-100"
+                                type="submit"
+                                [disabled]="disableLoginButton"
+                              >
+                                Sign In
+                              </button>
+                            </div>
+                          </form>
+
+                          <div class="text-center mt-5">
+                            <p class="mb-1">Don't have an account yet?</p>
+                            <a
+                              href="auth-signup.html"
+                              class="text-secondary text-decoration-underline"
+                            >
+                              Create an account</a
+                            >
+                          </div>
+                        </div>
+                      </div>
+                      <!-- end card body -->
+                    </div>
+                    <!-- end card -->
+                  </div>
+                  <!--end col-->
+                  <div class="col-md-6 float-start">
+                    <div
+                      class="card h-100 border-0 shadow-none d-none d-sm-block mb-0"
+                    >
+                      <div
+                        class="card-body py-5 d-flex justify-content-between flex-column"
+                      >
+                        <div class="text-center">
+                          <h5 class="text-white">Nice to see you again</h5>
+                          <p class="text-white opacity-75">
+                            Enter your details and start your journey with us.
+                          </p>
+                        </div>
+                        <div
+                          class="auth-effect-main my-5 position-relative rounded-circle d-flex align-items-center justify-content-center mx-auto"
+                        >
+                          <div class="auth-user-list list-unstyled">
+                            <img
+                              src="../../../../assets/images/auth/signin.png"
+                              alt=""
+                              class="img-fluid"
+                            />
+                          </div>
+                        </div>
+                        <div class="text-center">
+                          <p class="text-white opacity-75 mb-0 mt-3">
+                            &copy;
+                            <script>
+                              document.write(new Date().getFullYear());
+                            </script>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end col-->
+                </div>
+                <!--end row-->
+              </div>
+            </div>
+          </div>
+          <!--end col-->
+        </div>
+        <!--end row-->
+      </div>
+      <!--end container-->
+    </section>
+
+    <!-- JAVASCRIPT -->
+    <script src="../../../../assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../../assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="../../../../assets/js/plugins.js"></script>
+
+    <!--Swiper slider js-->
+    <script src="../../../../assets/libs/swiper/swiper-bundle.min.js"></script>
+
+    <!-- swiper.init js -->
+    <script src="../../../../assets/js/pages/swiper.init.js"></script>
+  </body>
+</html>

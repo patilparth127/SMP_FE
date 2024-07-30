@@ -1,0 +1,93 @@
+<div class="col-lg-12">
+    <div class="card-header">
+        <h4 class="card-title">
+            <label for="basiInput" class="form-label">Student Observation Categories</label>
+        </h4>
+    </div>
+    <!-- end card header -->
+    <div class="card-body">
+        <div class="col-sm-6">
+            <!-- <div class="hstack gap-2">
+                <button type="button" class="btn btn-primary btn-icon" (click)="addOrUpdateObservation()">
+                    <i class="ri-add-line"></i>
+                </button>
+                <button type="button" class="btn btn-warning btn-icon" (click)="updateObservation()">
+                    <i class="ri-pencil-line"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-icon" >
+                    <i class="ri-delete-bin-5-line"></i>
+                </button>
+            </div> -->
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-xxl-3 col-md-6">
+                <div>
+                    <label for="categoryInput" class="form-label">Category<span class="reqcss">*</span></label>
+                    <input type="text" class="form-control" id="categoryInput"
+                        [(ngModel)]="newObservation.categoryText" />
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <label for="">&nbsp;</label>
+                <div class="form-check mb-3">
+                    <br>
+                <label for="">&nbsp;</label>
+
+                    <input class="form-check-input" type="checkbox" id="showToParentsStudents"
+                        [(ngModel)]="newObservation.showToParentnStudent" />
+                    <label class="form-check-label" for="showToParentsStudents">
+                        Show To Parents and Students
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <label for="">&nbsp;</label>
+                <div class="hstack gap-2">
+                    <button type="button" class="btn btn-success" (click)="addOrUpdateObservation()">Submit</button>
+                    <button type="button" class="btn btn-danger" (click)="resetForm()">Reset</button>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-nowrap mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Actions</th> <!-- Change header -->
+                                    <th scope="col">Show To Parents and Students</th>
+                                    <th scope="col">Category</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let list of studentObservationCategory">
+                                    <td class="fw-medium hstack gap-2">
+                                        <button type="button" class="btn btn-warning btn-icon" (click)="editObservation(list)">
+                                            <i class="ri-pencil-line"></i> <!-- Edit icon -->
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-icon" (click)="deleteObservation(list)">
+                                            <i class="ri-delete-bin-5-line"></i> <!-- Delete icon -->
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <span class="fw-medium"
+                                            [class]="list.showToParentnStudent ? 'badge bg-success-subtle text-success' : 'badge bg-success-subtle text-danger'">
+                                            {{ list.showToParentnStudent ? 'Visible' : 'Not Visible' }}
+                                        </span>
+                                    </td>
+                                    <td class="fw-medium">{{ list.categoryText }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+                <!-- end card-body -->
+            </div>
+            <!-- end card -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+.h-200px {
+    height: 200px !important;
+}
+
+.w-200px {
+    width: 200px !important;
+}
+
+.icon-large {
+    font-size: 1.1rem;
+}
+
+.active {
+    font-weight: bold;
+}
+
+.view-buttons .btn {
+    border-radius: 0%;
+}
+
+.view-buttons .btn:last-child {
+    margin-right: 0;
+}

@@ -1,0 +1,56 @@
+<app-master-page></app-master-page>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Section Student Mapping - Bulk Upload</title>
+  </head>
+  <body>
+    <div class="ml-5 pt-5 mt-5">
+      <h5 class="mb-0 pb-1 m-2 text-decoration-underline">
+        Student Section Mapping - Bulk Upload
+      </h5>
+      <div class="m-2 mt-5">
+        <div class="justify-content-center">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="fs-md mb-0 text-primary">
+                  Upload your Section Student Mapping bulk upload file here
+                </h5>
+              </div>
+              <div class="card-body">
+                <form (submit)="onSubmit()">
+                  <div class="form-group m-3">
+                    <label for="fileInput" class="btn btn-primary">
+                      Choose File
+                      <input
+                        type="file"
+                        id="fileInput"
+                        (change)="onFileSelected($event)"
+                        hidden
+                      />
+                    </label>
+                    <span class="ml-2" *ngIf="selectedFile">{{
+                      selectedFile.name
+                    }}</span>
+                  </div>
+                  <div class="m-3">
+                    <button
+                      type="submit"
+                      class="btn btn-success"
+                      [disabled]="!selectedFile"
+                    >
+                      Upload
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

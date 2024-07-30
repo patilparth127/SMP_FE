@@ -1,0 +1,116 @@
+<app-master-page></app-master-page>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>School Master</title>
+  </head>
+  <body>
+    <div class="ml-5 pt-4 mt-5">
+      <div class="card">
+        <div class="card-body">
+          <ul
+            class="nav nav-tabs nav-justified nav-border-top nav-border-top-success mb-3"
+            role="tablist"
+          >
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link active d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-academic-year"
+                role="tab"
+                aria-selected="false"
+              >
+                <i class="fas fa-calendar-alt align-middle me-1 px-1"></i
+                ><span>Academic Year</span>
+              </a>
+            </li>
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-academic-board"
+                role="tab"
+                aria-selected="false"
+              >
+                <i class="fas fa-chalkboard me-1 align-middle px-1"></i>
+                Academic Board
+              </a>
+            </li>
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-academic-program"
+                role="tab"
+                aria-selected="false"
+              >
+                <i class="fas fa-graduation-cap align-middle me-1 px-1"></i
+                >Academic Program
+              </a>
+            </li>
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-academic-term"
+                role="tab"
+                aria-selected="false"
+              >
+                <i class="fas fa-file-alt align-middle me-1 px-1"></i>Academic
+                Term
+              </a>
+            </li>
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-grade"
+                role="tab"
+                aria-selected="false"
+              >
+                <i class="fas fa-layer-group align-middle me-1 px-1"></i>Grade
+              </a>
+            </li>
+            <li class="nav-item" (click)="reload()">
+              <a
+                class="nav-link d-flex justify-content-center align-items-baseline"
+                data-bs-toggle="tab"
+                href="#nav-tab-section"
+                role="tab"
+                aria-selected="false"
+              >
+                <i class="fas fa-th-large align-middle me-1 px-1"></i>Section
+              </a>
+            </li>
+          </ul>
+          <div class="tab-content text-muted">
+            <div
+              class="tab-pane active"
+              id="nav-tab-academic-year"
+              role="tabpanel"
+            >
+              <app-academic-year></app-academic-year>
+            </div>
+            <div class="tab-pane" id="nav-tab-academic-board" role="tabpanel">
+              <app-academic-board></app-academic-board>
+            </div>
+            <div class="tab-pane" id="nav-tab-academic-program" role="tabpanel">
+              <app-academic-program></app-academic-program>
+            </div>
+            <div class="tab-pane" id="nav-tab-academic-term" role="tabpanel">
+              <app-academic-term></app-academic-term>
+            </div>
+            <div class="tab-pane" id="nav-tab-grade" role="tabpanel">
+              <app-grade></app-grade>
+            </div>
+            <div class="tab-pane" id="nav-tab-section" role="tabpanel">
+              <app-section></app-section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

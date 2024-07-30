@@ -1,0 +1,63 @@
+<app-master-page></app-master-page>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Section Teacher Master</title>
+  </head>
+  <body>
+    <div class="ml-5 pt-4 mt-5">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="mb-0 pb-1 text-decoration-underline">Section Teacher Master</h5>
+          <div class="table-responsive table-card mt-5 mb-1 m-0">
+            <table class="table align-middle table-nowrap">
+              <thead class="text-center table-active bg-cyan-cornflower-blue">
+                <tr>
+                  <th
+                    class="border-left-lightgray border-right-lightgray text-white cursor-pointer"
+                  >
+                    Grade Name
+                  </th>
+                  <th
+                    class="border-left-lightgray border-right-lightgray text-white cursor-pointer"
+                  >
+                    Section Name
+                  </th>
+                  <th class="text-center border-right-lightgray text-white">
+                    Teacher Name
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="text-center list form-check-all">
+                <tr *ngFor="let item of lstAllGradeSection; let i = index">
+                  <td>{{ item.gradeName }}</td>
+                  <td>{{ item.sectionName }}</td>
+                  <td class="px-5 d-flex justify-content-center">
+                    <select
+                      class="form-select w-50 d-flex justify-content-center"
+                      (change)="onTeacherChange($event, item)"
+                      [(ngModel)]="item.teacherID"
+                    >
+                      <option value="0">Select Teacher</option>
+                      <option
+                        *ngFor="let teacher of lstAllTeachers"
+                        [value]="teacher.teacherID"
+                      >
+                        {{ teacher.teacherName }}
+                      </option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="lstAllGradeSection && lstAllGradeSection.length <= 0">
+            <div class="alert alert-info">No record found</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

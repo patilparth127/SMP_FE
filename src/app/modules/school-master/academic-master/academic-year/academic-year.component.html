@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academic Year</title>
+  </head>
+  <body>
+    <div class="row m-1 p-3 shadow-box">
+      <div class="col-md-12">
+        <form [formGroup]="academicYearForm" (ngSubmit)="UpsertAcademicYear()">
+          <div>
+            <div class="row gx-5">
+              <div class="col">
+                <label for="fromDate" class="form-label">From Date:</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fromDate"
+                  name="fromDate"
+                  formControlName="fromDate"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="FromDate.errors?.['required']"
+                >
+                  From Date is Required
+                </div>
+              </div>
+              <div class="col">
+                <label for="toDate" class="form-label">To Date:</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="toDate"
+                  name="toDate"
+                  formControlName="toDate"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="ToDate.errors?.['required']"
+                >
+                  To Date is Required
+                </div>
+              </div>
+              <div class="col d-flex justify-content-center m-auto">
+                <div class="w-100 pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <div class="align-middle">
+                    <input
+                      type="checkbox"
+                      class="form-check-label m-2"
+                      id="isDefault"
+                      name="isDefault"
+                      formControlName="isDefault"
+                    />
+                    <label class="form-check-label ml-2" for="isDefault"
+                      >Is Default</label
+                    >
+                  </div>
+                  <div
+                    class="form-text text-white"
+                    *ngIf="ToDate.errors?.['required'] || FromDate.errors?.['required']"
+                  >
+                    &nbsp
+                  </div>
+                </div>
+                <div class="w-100 m-auto pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-label w-75"
+                    [disabled]="academicYearForm.invalid"
+                  >
+                    <i class="ri-save-3-fill label-icon align-middle"></i>
+                    {{ buttonLabel }}
+                  </button>
+                  <div
+                    class="form-text text-white"
+                    *ngIf="ToDate.errors?.['required'] || FromDate.errors?.['required']"
+                  >
+                    &nbsp
+                  </div>
+                </div>
+              </div>
+              <div class="col d-flex justify-content-start m-auto">
+                <div class="w-50 pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <button
+                    type="button"
+                    class="btn btn-info btn-label w-75"
+                    (click)="ResetForm()"
+                  >
+                    <i class="ri-close-circle-fill label-icon align-middle"></i>
+                    Cancel
+                  </button>
+                  <div
+                    class="form-text text-white"
+                    *ngIf="ToDate.errors?.['required'] || FromDate.errors?.['required']"
+                  >
+                    &nbsp
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div>
+        <div class="table-responsive table-card mt-5 mb-1 m-0">
+          <table class="table align-middle table-nowrap">
+            <thead class="table-active bg-cyan-cornflower-blue">
+              <tr>
+                <th
+                  (click)="sort('academicYear')"
+                  class="border-left-lightgray border-right-lightgray text-white sort cursor-pointer"
+                >
+                  Academic Year
+                </th>
+                <th
+                  (click)="sort('fromDate')"
+                  class="border-right-lightgray text-white sort cursor-pointer"
+                >
+                  From Date
+                </th>
+                <th
+                  (click)="sort('toDate')"
+                  class="border-right-lightgray text-white sort cursor-pointer"
+                >
+                  To Date
+                </th>
+                <th
+                  (click)="sort('isDefault')"
+                  class="border-right-lightgray text-white sort cursor-pointer"
+                >
+                  Is Default
+                </th>
+                <th
+                  class="border-right-lightgray text-white sort cursor-pointer"
+                >
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody class="list form-check-all">
+              <tr
+                *ngFor="let academicYear of allAcademicYear"
+                [ngClass]="{
+                  'highlight-row':
+                    academicYear.academicYearID === selectedAcademicYearID
+                }"
+                (click)="HighlightSelectedRow(academicYear.academicYearID)"
+              >
+                <td class="border-left-lightgray border-right-lightgray">
+                  {{ academicYear.academicYear }}
+                </td>
+                <td>
+                  {{ convertToDateInDDMMYYYYFormat(academicYear.fromDate) }}
+                </td>
+                <td class="border-right-lightgray">
+                  {{ convertToDateInDDMMYYYYFormat(academicYear.toDate) }}
+                </td>
+                <td class="border-right-lightgray status">
+                  <span
+                    *ngIf="academicYear.isDefault"
+                    class="badge bg-success-subtle text-success text-uppercase"
+                    >{{ academicYear.isDefault }}</span
+                  >
+                  <span
+                    *ngIf="!academicYear.isDefault"
+                    class="badge bg-danger-subtle text-danger text-uppercase"
+                    >{{ academicYear.isDefault }}</span
+                  >
+                </td>
+                <td class="border-right-lightgray">
+                  <div class="d-flex gap-2">
+                    <div class="edit">
+                      <button
+                        class="btn btn-sm btn-success edit-item-btn"
+                        (click)="editAcademicYear(academicYear)"
+                      >
+                        <i
+                          class="ri ri-edit-2-fill label-icon align-middle"
+                        ></i>
+                        Edit
+                      </button>
+                    </div>
+                    <div class="remove">
+                      <button
+                        class="btn btn-sm btn-danger remove-item-btn"
+                        (click)="RemoveAcademicYear(academicYear)"
+                      >
+                        <i
+                          class="ri ri-delete-back-2-fill label-icon align-middle"
+                        ></i>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="allAcademicYear && allAcademicYear.length <= 0">
+          <div class="alert alert-info">No record found</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Organization Group</title>
+  </head>
+  <body>
+    <div class="row m-1 p-3 shadow-box">
+      <div class="col-md-12">
+        <form
+          [formGroup]="OrganizationGroupForm"
+          (ngSubmit)="UpsertOrganizationGroup()"
+        >
+          <div>
+            <div class="row gx-5">
+              <div class="col-sm-12 col-md-4 col-lg-2">
+                <label for="organizationGroupName" class="form-label"
+                  >Group Name:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="organizationGroupName"
+                  name="organizationGroupName"
+                  formControlName="organizationGroupName"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="OrganizationGroupName.errors?.['required']"
+                >
+                  Group Name is required
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4 col-lg-6">
+                <label for="organizationGroupDescription" class="form-label"
+                  >Group Description:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="organizationGroupDescription"
+                  name="organizationGroupDescription"
+                  formControlName="organizationGroupDescription"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="OrganizationGroupDescription.errors?.['required']"
+                >
+                  Group Description is required
+                </div>
+              </div>
+              <div
+                class="col-xxs-6 col-xs-6 col-sm-6 col-md-4 col-lg-2 d-flex justify-content-end"
+              >
+                <div class="w-75 pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-label w-75"
+                    [disabled]="OrganizationGroupForm.invalid"
+                  >
+                    <i class="ri-save-3-fill label-icon align-middle"></i>
+                    {{ buttonLabel }}
+                  </button>
+                  <div
+                    class="form-text text-white"
+                    *ngIf="OrganizationGroupName.errors?.['required'] || OrganizationGroupDescription.errors?.['required']"
+                  >
+                    &nbsp
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-xxs-6 col-xs-6 col-sm-6 col-md-4 col-lg-2 d-flex justify-content-left"
+              >
+                <div class="w-75 pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <button
+                    type="button"
+                    class="btn btn-info btn-label w-75"
+                    (click)="ResetForm()"
+                  >
+                    <i class="ri-close-circle-fill label-icon align-middle"></i>
+                    Cancel
+                  </button>
+                  <div
+                    class="form-text text-white"
+                    *ngIf="OrganizationGroupName.errors?.['required'] || OrganizationGroupDescription.errors?.['required']"
+                  >
+                    &nbsp
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 d-none d-lg-block"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div>
+      <div class="table-responsive table-card mt-5 mb-1 m-0">
+        <table class="table align-middle table-nowrap">
+          <thead class="table-active bg-cyan-cornflower-blue">
+            <tr>
+              <th
+                (click)="sort('groupName')"
+                class="border-left-lightgray border-right-lightgray text-white sort cursor-pointer"
+              >
+                Group Name
+              </th>
+              <th
+                (click)="sort('groupDescription')"
+                class="border-left-lightgray border-right-lightgray text-white sort cursor-pointer"
+              >
+                Group Description
+              </th>
+              <th class="text-center border-right-lightgray text-white">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody class="list form-check-all">
+            <tr
+              *ngFor="let organizationGroup of allOrganizationGroup"
+              [ngClass]="{
+                'highlight-row':
+                  organizationGroup.organizationGroupID ===
+                  selectedOrganizationGroupID
+              }"
+              (click)="
+                HighlightSelectedRow(organizationGroup.organizationGroupID)
+              "
+            >
+              <td class="border-left-lightgray border-right-lightgray">
+                {{ organizationGroup.groupName }}
+              </td>
+              <td class="border-left-lightgray border-right-lightgray">
+                {{ organizationGroup.groupDescription }}
+              </td>
+              <td
+                class="d-flex justify-content-center text-center border-right-lightgray"
+              >
+                <div class="d-flex gap-2">
+                  <div class="edit">
+                    <button
+                      class="btn btn-sm btn-success edit-item-btn"
+                      (click)="EditOrganizationGroup(organizationGroup)"
+                    >
+                      <i class="ri ri-edit-2-fill label-icon align-middle"></i>
+                      Edit
+                    </button>
+                  </div>
+                  <div class="remove">
+                    <button
+                      class="btn btn-sm btn-danger remove-item-btn"
+                      (click)="RemoveOrganizationGroup(organizationGroup.organizationGroupID)"
+                    >
+                      <i
+                        class="ri ri-delete-back-2-fill label-icon align-middle"
+                      ></i>
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="allOrganizationGroup && allOrganizationGroup.length <= 0">
+        <div class="alert alert-info">No record found</div>
+      </div>
+    </div>
+  </body>
+</html>

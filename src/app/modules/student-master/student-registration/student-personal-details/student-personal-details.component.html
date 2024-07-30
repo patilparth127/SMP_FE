@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academic Board</title>
+  </head>
+  <body>
+    <div class="row m-1 p-3 shadow-box">
+      <div class="col-md-12">
+        <form
+          [formGroup]="StudentPersonalDetailsForm"
+          (ngSubmit)="SaveStudentPersonalDetails()"
+        >
+          <div>
+            <div class="row gx-5">
+              <!-- First Name -->
+              <div class="col">
+                <label for="firstName" class="form-label">First Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firstName"
+                  name="firstName"
+                  formControlName="firstName"
+                  maxlength="100"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="FirstName.errors?.['required']"
+                >
+                  First Name is required
+                </div>
+              </div>
+
+              <!-- Last Name -->
+              <div class="col">
+                <label for="lastName" class="form-label">Last Name:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  name="lastName"
+                  formControlName="lastName"
+                  maxlength="100"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="LastName.errors?.['required']"
+                >
+                  Last Name is required
+                </div>
+              </div>
+
+              <!-- Gender -->
+              <div class="col">
+                <label for="gender" class="form-label">Gender:</label>
+                <select
+                  class="form-control"
+                  id="gender"
+                  name="gender"
+                  formControlName="gender"
+                >
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+                <div
+                  class="form-text text-danger"
+                  *ngIf="Gender.errors?.['required']"
+                >
+                  Gender is required
+                </div>
+              </div>
+
+              <!-- BirthDate -->
+              <div class="col">
+                <label for="birthDate" class="form-label">Birth Date:</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="birthDate"
+                  name="birthDate"
+                  formControlName="birthDate"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="BirthDate.errors?.['required']"
+                >
+                  Birth Date is required
+                </div>
+              </div>
+            </div>
+
+            <div class="row gx-5 my-5">
+              <!-- StudentSchoolEmailID -->
+              <div class="col">
+                <label for="studentSchoolEmailID" class="form-label"
+                  >Student School Email ID:</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="studentSchoolEmailID"
+                  name="studentSchoolEmailID"
+                  formControlName="studentSchoolEmailID"
+                  maxlength="200"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="StudentSchoolEmailID.errors?.['required']"
+                >
+                  Student School Email ID is required
+                </div>
+              </div>
+
+              <!-- BloodGroup -->
+              <div class="col">
+                <label for="bloodGroup" class="form-label">Blood Group:</label>
+                <select
+                  class="form-select"
+                  id="bloodGroup"
+                  name="bloodGroup"
+                  formControlName="bloodGroup"
+                >
+                  <option value="">Select Blood Group</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="BloodGroup.errors?.['required']"
+                >
+                  Blood Group is required
+                </div> -->
+              </div>
+
+              <!-- EmergencyContactNo -->
+              <div class="col">
+                <label for="emergencyContactNo" class="form-label"
+                  >Emergency Contact No:</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="emergencyContactNo"
+                  name="emergencyContactNo"
+                  formControlName="emergencyContactNo"
+                  min="0"
+                  max="999999999999999"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="EmergencyContactNo.errors?.['required']"
+                >
+                  Emergency Contact No is required
+                </div>
+              </div>
+
+              <!-- Whatsapp Number -->
+              <div class="col">
+                <label for="whatsappNumber" class="form-label"
+                  >Whatsapp Number:</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="whatsappNumber"
+                  name="whatsappNumber"
+                  formControlName="whatsappNumber"
+                  min="0"
+                  max="999999999999999"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="WhatsappNumber.errors?.['required']"
+                >
+                  Whatsapp Number is required
+                </div>
+              </div>
+            </div>
+
+            <div class="row gx-5 my-5">
+              <!-- House No -->
+              <div class="col">
+                <label for="houseNo" class="form-label">House No:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="houseNo"
+                  name="houseNo"
+                  formControlName="houseNo"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="HouseNo.errors?.['required']"
+                >
+                  House No is required
+                </div>
+              </div>
+
+              <!-- SocietyName -->
+              <div class="col">
+                <label for="societyName" class="form-label"
+                  >Society Name:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="societyName"
+                  name="societyName"
+                  formControlName="societyName"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="SocietyName.errors?.['required']"
+                >
+                  Society Name is required
+                </div>
+              </div>
+
+              <!-- Landmark -->
+              <div class="col">
+                <label for="landmark" class="form-label">Landmark:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="landmark"
+                  name="landmark"
+                  formControlName="landmark"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="Landmark.errors?.['required']"
+                >
+                  Landmark is required
+                </div> -->
+              </div>
+
+              <!-- Area -->
+              <div class="col">
+                <label for="area" class="form-label">Area:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="area"
+                  name="area"
+                  formControlName="area"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="Area.errors?.['required']"
+                >
+                  Area is required
+                </div> -->
+              </div>
+            </div>
+
+            <div class="row gx-5 my-5">
+              <!-- City -->
+              <div class="col">
+                <label for="city" class="form-label">City:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="city"
+                  name="city"
+                  formControlName="city"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="City.errors?.['required']"
+                >
+                  City is required
+                </div>
+              </div>
+
+              <!-- Zip -->
+              <div class="col">
+                <label for="zip" class="form-label">Zip:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="zip"
+                  name="zip"
+                  formControlName="zip"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="Zip.errors?.['required']"
+                >
+                  Zip is required
+                </div>
+              </div>
+
+              <!-- State -->
+              <div class="col">
+                <label for="state" class="form-label">State:</label>
+                <select
+                  class="form-select"
+                  id="state"
+                  name="state"
+                  formControlName="state"
+                >
+                  <option value="">Select State</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                  <option value="Assam">Assam</option>
+                  <option value="Bihar">Bihar</option>
+                  <option value="Chhattisgarh">Chhattisgarh</option>
+                  <option value="Goa">Goa</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Haryana">Haryana</option>
+                  <option value="Himachal Pradesh">Himachal Pradesh</option>
+                  <option value="Jharkhand">Jharkhand</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Kerala">Kerala</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Manipur">Manipur</option>
+                  <option value="Meghalaya">Meghalaya</option>
+                  <option value="Mizoram">Mizoram</option>
+                  <option value="Nagaland">Nagaland</option>
+                  <option value="Odisha">Odisha</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Rajasthan">Rajasthan</option>
+                  <option value="Sikkim">Sikkim</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Telangana">Telangana</option>
+                  <option value="Tripura">Tripura</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="Uttarakhand">Uttarakhand</option>
+                  <option value="West Bengal">West Bengal</option>
+                </select>
+                <div
+                  class="form-text text-danger"
+                  *ngIf="State.errors?.['required']"
+                >
+                  State is required
+                </div>
+              </div>
+
+              <!-- Country -->
+              <div class="col">
+                <label for="country" class="form-label">Country:</label>
+                <select
+                  class="form-select"
+                  id="country"
+                  name="country"
+                  formControlName="country"
+                >
+                  <option value="">Select</option>
+                  <option value="United States of America">
+                    United States of America
+                  </option>
+                  <option value="Canada">Canada</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="Germany">Germany</option>
+                  <option value="France">France</option>
+                  <option value="Italy">Italy</option>
+                  <option value="Spain">Spain</option>
+                  <option value="Japan">Japan</option>
+                  <option value="China">China</option>
+                  <option value="India">India</option>
+                  <option value="Australia">Australia</option>
+                  <option value="Brazil">Brazil</option>
+                  <option value="Mexico">Mexico</option>
+                  <option value="Russia">Russia</option>
+                  <option value="South Africa">South Africa</option>
+                  <option value="Argentina">Argentina</option>
+                  <option value="New Zealand">New Zealand</option>
+                  <option value="South Korea">South Korea</option>
+                  <option value="Netherlands">Netherlands</option>
+                  <option value="Switzerland">Switzerland</option>
+                  <option value="Sweden">Sweden</option>
+                  <option value="Norway">Norway</option>
+                  <option value="Denmark">Denmark</option>
+                  <option value="Belgium">Belgium</option>
+                  <option value="Austria">Austria</option>
+                  <option value="Greece">Greece</option>
+                  <option value="Turkey">Turkey</option>
+                  <option value="Saudi Arabia">Saudi Arabia</option>
+                  <option value="United Arab Emirates">
+                    United Arab Emirates
+                  </option>
+                  <option value="Qatar">Qatar</option>
+                </select>
+                <div
+                  class="form-text text-danger"
+                  *ngIf="Country.errors?.['required']"
+                >
+                  Country is required
+                </div>
+              </div>
+            </div>
+
+            <div class="row gx-5 my-5">
+              <!-- House -->
+              <div class="col">
+                <label for="house" class="form-label">House:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="house"
+                  name="house"
+                  formControlName="house"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="House.errors?.['required']"
+                >
+                  House is required
+                </div> -->
+              </div>
+
+              <!-- Profile Image -->
+              <div class="col">
+                <label for="profileImage" class="form-label"
+                  >Profile Image:</label
+                >
+                <input
+                  type="file"
+                  class="form-control"
+                  id="profileImage"
+                  name="profileImage"
+                  (change)="onFileSelected($event)"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="ImagePath.errors?.['required']"
+                >
+                  Profile Image is required
+                </div>
+              </div>
+
+              <!-- Aadhar Card Number -->
+              <div class="col">
+                <label for="aadharCardNo" class="form-label"
+                  >Aadhar Card Number:</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="aadharCardNo"
+                  name="aadharCardNo"
+                  formControlName="aadharCardNo"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="AadharCardNo.errors?.['required']"
+                >
+                  Aadhar Card Number is required
+                </div> -->
+              </div>
+
+              <!-- Nationality -->
+              <div class="col">
+                <label for="nationality" class="form-label">Nationality:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nationality"
+                  name="nationality"
+                  formControlName="nationality"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="Nationality.errors?.['required']"
+                >
+                  Nationality is required
+                </div>
+              </div>
+            </div>
+            <div class="row gx-5 my-5">
+              <!-- Religion -->
+              <div class="col">
+                <label for="religion" class="form-label">Religion:</label>
+                <select
+                  class="form-select"
+                  id="religion"
+                  name="religion"
+                  formControlName="religion"
+                >
+                  <option value="">Select Religion</option>
+                  <option value="Hinduism">Hinduism</option>
+                  <option value="Jainism">Jainism</option>
+                  <option value="Christianity">Christianity</option>
+                  <option value="Islam">Islam</option>
+                  <option value="Buddhism">Buddhism</option>
+                  <option value="Sikhism">Sikhism</option>
+                </select>
+                <div
+                  class="form-text text-danger"
+                  *ngIf="Religion.errors?.['required']"
+                >
+                  Religion is required
+                </div>
+              </div>
+
+              <!-- Caste -->
+              <div class="col">
+                <label for="caste" class="form-label">Caste:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="caste"
+                  name="caste"
+                  formControlName="caste"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="Caste.errors?.['required']"
+                >
+                  Caste is required
+                </div> -->
+              </div>
+
+              <!-- Sub Caste -->
+              <div class="col">
+                <label for="subCaste" class="form-label">Sub Caste:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="subCaste"
+                  name="subCaste"
+                  formControlName="subCaste"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="SubCaste.errors?.['required']"
+                >
+                  Sub Caste is required
+                </div> -->
+              </div>
+
+              <!-- Resignation Date -->
+              <div class="col">
+                <label for="resignationDate" class="form-label"
+                  >Resignation Date:</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="resignationDate"
+                  name="resignationDate"
+                  formControlName="resignationDate"
+                />
+                <!-- <div
+                  class="form-text text-danger"
+                  *ngIf="ResignationDate.errors?.['required']"
+                >
+                  Resignation Date is required
+                </div> -->
+              </div>
+            </div>
+            <div class="row gx-5 my-5">
+              <!-- UDISE Number -->
+              <div class="col">
+                <label for="UDISENumber" class="form-label">UDISE Number:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="UDISENumber"
+                  name="UDISENumber"
+                  formControlName="UDISENumber"
+                />
+              </div>
+
+              <!-- PEN Number -->
+              <div class="col">
+                <label for="PENNumber" class="form-label">PEN Number:</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="PENNumber"
+                  name="PENNumber"
+                  formControlName="PENNumber"
+                />
+              </div>
+
+              <!-- Save, Next and Cancel Button -->
+              <div class="col d-flex justify-content-center m-auto">
+                <div class="w-100 m-auto pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <!-- <button
+                    type="submit"
+                    class="btn btn-primary btn-label mr-10px"
+                    [disabled]="StudentregistrationForm.invalid"
+                  >
+                    <i class="ri-save-3-fill label-icon align-middle"></i>
+                    {{ buttonLabel }}
+                  </button> -->
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-label mr-10px"
+                    [disabled]="StudentPersonalDetailsForm.invalid"
+                  >
+                    <i
+                      class="ri-arrow-right-circle-fill label-icon align-middle"
+                    ></i>
+                    Save & Next
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-info btn-label"
+                    (click)="ResetForm()"
+                  >
+                    <i class="ri-close-circle-fill label-icon align-middle"></i>
+                    Cancel
+                  </button>
+                  <div
+                    class="form-text text-white"
+                    *ngIf="FirstName.errors?.['required'] || FirstName.errors?.['required']"
+                  >
+                    &nbsp
+                  </div>
+                </div>
+              </div>
+              <div class="col"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

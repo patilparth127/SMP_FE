@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Organization Group</title>
+  </head>
+  <body>
+    <div class="row m-1 p-3 shadow-box">
+      <div class="col-md-12">
+        <form
+          [formGroup]="OrganizationTeamForm"
+          (ngSubmit)="UpsertOrganizationTeam()"
+        >
+          <div>
+            <div class="row gx-5">
+              <div class="col-sm-12 col-md-4 col-lg-2">
+                <label for="organizationDepartmentName" class="form-label"
+                  >Organization Department Name:</label
+                >
+                <select
+                  *ngIf="allOrganizationDepartment"
+                  class="form-select"
+                  id="organizationDepartmentName"
+                  name="organizationDepartmentName"
+                  formControlName="organizationDepartmentName"
+                >
+                  <option [value]="0" [disabled]="true" selected>
+                    Select Department Name
+                  </option>
+                  <option
+                    *ngFor="let item of allOrganizationDepartment"
+                    [value]="item.organizationDepartmentID"
+                  >
+                    {{ item.departmentName }}
+                  </option>
+                </select>
+                <div
+                  class="form-text text-danger"
+                >
+                  Department Name is required
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4 col-lg-2">
+                <label for="organizationTeamName" class="form-label"
+                  >Team Name:</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="organizationTeamName"
+                  name="organizationTeamName"
+                  formControlName="organizationTeamName"
+                />
+                <div
+                  class="form-text text-danger"
+                  *ngIf="OrganizationTeamName.errors?.['required']"
+                >
+                  Team Name is required
+                </div>
+              </div>
+              <div
+                class="col-xxs-6 col-xs-6 col-sm-6 col-md-4 col-lg-2 d-flex justify-content-end"
+              >
+                <div class="w-75 pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-label w-75"
+                    [disabled]="OrganizationTeamForm.invalid"
+                  >
+                    <i class="ri-save-3-fill label-icon align-middle"></i>
+                    {{ buttonLabel }}
+                  </button>
+                  <div
+                    class="form-text text-white"
+                    *ngIf="OrganizationDepartmentName.errors?.['required'] || OrganizationTeamName.errors?.['required']"
+                  >
+                    &nbsp
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-xxs-6 col-xs-6 col-sm-6 col-md-4 col-lg-2 d-flex justify-content-left"
+              >
+                <div class="w-75 pt-2">
+                  <label class="text-white">&nbsp</label><br />
+                  <button
+                    type="button"
+                    class="btn btn-info btn-label w-75"
+                    (click)="ResetForm()"
+                  >
+                    <i class="ri-close-circle-fill label-icon align-middle"></i>
+                    Cancel
+                  </button>
+                  <div
+                    class="form-text text-white"
+                    *ngIf="OrganizationDepartmentName.errors?.['required'] || OrganizationTeamName.errors?.['required']"
+                  >
+                    &nbsp
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 d-none d-lg-block"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div>
+        <div class="table-responsive table-card mt-5 mb-1 m-0">
+          <table class="table align-middle table-nowrap">
+            <thead class="table-active bg-cyan-cornflower-blue">
+              <tr>
+                <th
+                  (click)="sort('groupName')"
+                  class="border-left-lightgray border-right-lightgray text-white sort cursor-pointer"
+                >
+                  Group Name
+                </th>
+                <th
+                  (click)="sort('departmentName')"
+                  class="border-left-lightgray border-right-lightgray text-white sort cursor-pointer"
+                >
+                  Department Name
+                </th>
+                <th
+                  (click)="sort('teamName')"
+                  class="border-left-lightgray border-right-lightgray text-white sort cursor-pointer"
+                >
+                  Team Name
+                </th>
+                <th class="text-center border-right-lightgray text-white">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody class="list form-check-all">
+              <tr
+                *ngFor="let item of allOrganizationTeam"
+                [ngClass]="{
+                  'highlight-row':
+                    item.organizationTeamID === selectedOrganizationTeamID
+                }"
+                (click)="HighlightSelectedRow(item.organizationTeamID)"
+              >
+                <td class="border-left-lightgray border-right-lightgray">
+                  {{ item.groupName }}
+                </td>
+                <td class="border-left-lightgray border-right-lightgray">
+                  {{ item.departmentName }}
+                </td>
+                <td class="border-left-lightgray border-right-lightgray">
+                  {{ item.teamName }}
+                </td>
+                <td
+                  class="d-flex justify-content-center text-center border-right-lightgray"
+                >
+                  <div class="d-flex gap-2">
+                    <div class="edit">
+                      <button
+                        class="btn btn-sm btn-success edit-item-btn"
+                        (click)="EditOrganizationTeam(item)"
+                      >
+                        <i class="ri ri-edit-2-fill label-icon align-middle"></i>
+                        Edit
+                      </button>
+                    </div>
+                    <div class="remove">
+                      <button
+                        class="btn btn-sm btn-danger remove-item-btn"
+                        (click)="
+                          RemoveOrganizationTeam(
+                            item.organizationTeamID
+                          )
+                        "
+                      >
+                        <i
+                          class="ri ri-delete-back-2-fill label-icon align-middle"
+                        ></i>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="allOrganizationTeam && allOrganizationTeam.length <= 0">
+          <div class="alert alert-info">No record found</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

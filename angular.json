@@ -13,7 +13,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/school-erp-system-ui",
+            "allowedCommonJsDependencies": [
+              "lodash"
+            ],
+            "outputPath": "dist/SchoolERPSystemUI",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -39,13 +42,7 @@
               "src/assets/libs/apexcharts/apexcharts.min.js",
               "src/assets/libs/list.js/list.min.js",
               "src/assets/js/pages/dashboard-analytics.init.js"
-
-            ],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            ]
           },
           "configurations": {
             "production": {
@@ -60,33 +57,29 @@
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500mb",
-                  "maximumError": "1gb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2mb",
-                  "maximumError": "4mb"
-                }
-              ],
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "5mb",
+              "maximumError": "6mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2mb",
+              "maximumError": "4mb"
+            }
+          ],
               "outputHashing": "all"
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
         },
         "serve": {
-          "options": {
-            "proxyConfig": "proxy.conf.json"
-          },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
@@ -137,8 +130,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "analytics": "12b192e0-9e66-4cff-9db8-b777d98de1ba"
   }
 }

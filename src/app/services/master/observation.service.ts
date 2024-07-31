@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Constants } from '../../../common/constants';
-import { StudentObservationCategory, StudentObservationSubCategoryMasterModel } from '../../interfaces/observation';
+import { StudentObservationAttribute, StudentObservationCategory, StudentObservationSubCategoryMasterModel } from '../../interfaces/observation';
 
 
 @Injectable({
@@ -26,6 +26,8 @@ export class ObservationService {
   deleteStudentObservationCategory(id: number): Observable<any> {
     return this.http.delete<any>(`${this.Endpoint}StudentObservationMaster/DeleteStudentObservationCategoryByID?StudentObservationCategoryID=${id}`);
   }
+
+
   getAllStudentObservationSubCategory(){
     return this.http.get<any>(`${this.Endpoint}StudentObservationMaster/GetAllStudentObservationSubCategory`)
   }
@@ -36,6 +38,19 @@ export class ObservationService {
     return this.http.post<any>(`${this.Endpoint}StudentObservationMaster/UpsertStudentObservationSubCategory`,body)
   }
   deleteStudentObservationSubCategoryByID(id : any):Observable<any>{
-    return this.http.delete<any>(`${this.Endpoint}StudentObservationMaster/DeleteStudentObservationCategoryByID?StudentObservationCategoryID=${id}`);
+    return this.http.delete<any>(`${this.Endpoint}StudentObservationMaster/DeleteStudentObservationSubCategoryByID?StudentObservationSubCategoryID=${id}`);
+  }
+
+  getAllStudentObservationAttributes(){
+    return this.http.get<any>(`${this.Endpoint}StudentObservationMaster/GetAllStudentObservationAttributes`)
+  }
+  getStudentObservationAttributeByID(id : any){
+    return this.http.get<any>(`${this.Endpoint}StudentObservationMaster/GetStudentObservationAttributeByID?StudentObservationAttributeID=${id}`)
+  }
+  upsertStudentObservationAttribute(body : StudentObservationAttribute):Observable<any>{
+    return this.http.post<any>(`${this.Endpoint}StudentObservationMaster/UpsertStudentObservationAttribute`,body)
+  }
+  DeleteStudentObservationAttributeByID(id : any):Observable<any>{
+    return this.http.delete<any>(`${this.Endpoint}StudentObservationMaster/DeleteStudentObservationAttributeByID?StudentObservationAttributeID=${id}`);
   }
 }

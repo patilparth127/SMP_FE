@@ -37,7 +37,7 @@
                     <input type="text" type="text" class="form-control" id="categoryInput"  [(ngModel)]="newObservation.subCategory" />
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2" *ngIf="!disable_data">
                 
                 <label for="categoryInput" class="form-label">&nbsp;<span class="reqcss"></span></label>
                 <div class="hstack gap-2">
@@ -45,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="!disable_data" >
             <div class="col-lg-10">
               <div class="form-control" style="height: auto; max-height: 200px; overflow-y: auto;min-height: 100px !important;">
                 <ul class="list-group list-group-flush">
@@ -66,7 +66,8 @@
         <div class="row">
                 <label for="categoryInput" class="form-label">&nbsp;<span class="reqcss"></span></label>
                 <div class="hstack gap-2">
-                    <button type="button" class="btn btn-success" (click)="addOrUpdateSubCategory()">Submit</button>
+                  <button type="button" *ngIf="!disable_data" class="btn btn-success" (click)="addOrUpdateSubCategory()">Submit</button>
+                  <button type="button" *ngIf="disable_data" class="btn btn-success" (click)="UpdateSubCategory()">Update</button>
                     <button type="button" class="btn btn-danger" (click)="resetForm()">Reset</button>
                 </div>
         </div>

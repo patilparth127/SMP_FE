@@ -26,18 +26,18 @@ export class SubCategoryComponent {
     updatedBy: "",
     updatedDateTime: new Date()
   };
-
+  disable_data = false
   selectedObservation: StudentObservationSubCategoryMasterModel | null = null;
   studentObservationSubCategorydata : any 
   groupedStudentObservationSubCategory: any = [];
+  subCategories: string[] = [];
+  UpdatedSubCategories : any = []
 
   groupCategories(): void {
     const categoryMap = new Map<number, string>();
     this.studentObservationCategory.forEach(category => {
       categoryMap.set(category.studentObservationCategoryID, category.categoryText);
     });
-console.log(this.studentObservationCategory);
-console.log(this.studentObservationSubCategory);
 
     const grouped = this.studentObservationSubCategory.reduce((acc, current) => {
       const categoryName = categoryMap.get(current.studentObservationCategoryID) || 'Unknown Category';
@@ -85,9 +85,6 @@ console.log(this.studentObservationSubCategory);
     });
   }
  
-
-  subCategories: string[] = [];
-  UpdatedSubCategories : any = []
   addSubCategory() {
     if (this.newObservation.subCategory && this.newObservation.subCategory.trim()) {
       const newSubCategory: StudentObservationSubCategoryMasterModel = {
@@ -95,8 +92,6 @@ console.log(this.studentObservationSubCategory);
       };
 
       this.UpdatedSubCategories.push(newSubCategory);
-
-      // Reset the subCategory field for the next input
       this.newObservation.subCategory = "";
     }
   }
@@ -122,7 +117,6 @@ console.log(this.studentObservationSubCategory);
   
         this.observationService.upsertStudentObservationSubCategory(payload).subscribe({
           next: (res) => {
-
           },
           error: (err) => {
             console.error('Error submitting observation', err);
@@ -134,20 +128,51 @@ console.log(this.studentObservationSubCategory);
       console.log(err);
       
     }finally{
+      this.resetForm();
+      this.getAllStudentObservationSubCategory(); // Refresh list
+      this.groupCategories()
+    }
+  }
+  UpdateSubCategory(){
+    try{
+        const payload: StudentObservationSubCategoryMasterModel = {
+          studentObservationSubCategoryID: this.selectedObservation?.studentObservationSubCategoryID || 0,
+          studentObservationCategoryID: Number(this.newObservation.studentObservationCategoryID),
+          subCategory: this.newObservation.subCategory || '',
+          createdBy: 'admin',
+          updatedBy: 'admin',
+        };
+  
+        this.observationService.upsertStudentObservationSubCategory(payload).subscribe({
+          next: (res) => {
+            this.resetForm();
+            this.getAllStudentObservationSubCategory(); // Refresh list
+            this.groupCategories()
+          },
+          error: (err) => {
+            console.error('Error submitting observation', err);
+          }
+        });
+        
+    }catch(err){
+      console.log(err);
+      
+    }finally{
       this.getAllStudentObservationSubCategory(); // Refresh list
       this.groupCategories()
       this.resetForm();
     }
- 
   }
   toggleCategory(group: any) {
     group.isExpanded = !group.isExpanded;
   }
-  editObservation(observation: StudentObservationSubCategoryMasterModel): void {
+
+    editObservation(observation: StudentObservationSubCategoryMasterModel): void {
     console.log(observation);
     
     this.newObservation = { ...observation };
     this.selectedObservation = observation;
+    this.disable_data = true
   }
   resetForm(): void {
     this.newObservation = {
@@ -160,8 +185,10 @@ console.log(this.studentObservationSubCategory);
       updatedBy: "",
       updatedDateTime:new Date()
     };
+    this.disable_data = false
     this.selectedObservation = null;
     this.subCategories = [];
+    this.groupedStudentObservationSubCategory = []
   }
 
   updateObservation(): void {
@@ -176,7 +203,8 @@ console.log(this.studentObservationSubCategory);
   }
   deleteObservation(observation: StudentObservationSubCategoryMasterModel): void {
     if (confirm('Are you sure you want to delete this observation?')) {
-      this.observationService.deleteStudentObservationSubCategoryByID(observation.studentObservationCategoryID).subscribe({
+      debugger
+      this.observationService.deleteStudentObservationSubCategoryByID(observation.studentObservationSubCategoryID).subscribe({
         next: (res) => {
           console.log('Observation deleted:', res);
           this.getAllStudentObservationSubCategory(); // Refresh list

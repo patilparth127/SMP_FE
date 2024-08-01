@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ObservationService } from '../../../../services/master/observation.service';
-import { StudentObservationSubCategoryMasterModel, StudentObservationCategory, StudentObservationAttributeMasterModel, StudentObservationAttribute } from '../../../../interfaces/observation';
+import { StudentObservationSubCategoryMasterModel, StudentObservationCategory,StudentObservationAttribute } from '../../../../interfaces/observation';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -16,6 +16,7 @@ export class AttributesComponent {
 
   studentObservationSubCategory: StudentObservationSubCategoryMasterModel[] = [];
   studentObservationSubCategoryRealData: StudentObservationSubCategoryMasterModel[] = [];
+  studentObservationattribute: StudentObservationAttribute[] = [];
   studentObservationCategory : StudentObservationCategory[] = []
   newAttribute: StudentObservationAttribute = {
     studentObservationAttributeID: null,
@@ -24,7 +25,10 @@ export class AttributesComponent {
     attribute: '',
     attributeValue: '',
     createdBy: '',
-    updatedBy: ''
+    updatedBy: '',
+    isDelete: false,
+    createdDateTime: '',
+    updatedDateTime: null
   };
   disable_data = false
   selectedObservation: StudentObservationAttribute | any;
@@ -32,8 +36,11 @@ export class AttributesComponent {
   groupedStudentObservationSubCategory: any = [];
   subCategories: string[] = [];
   UpdatedSubCategories : any = []
-
+  transformedData : any
   groupCategories(): void {
+    let data = this.mapNamesToAttributes(this.studentObservationattribute,this.studentObservationCategory,this.studentObservationSubCategory)
+    console.log('data',data);
+    this.transformedData = this.transformData(data);
     const categoryMap = new Map<number, string>();
     this.studentObservationCategory.forEach(category => {
       categoryMap.set(category.studentObservationCategoryID, category.categoryText);
@@ -53,12 +60,43 @@ export class AttributesComponent {
     this.groupedStudentObservationSubCategory = grouped;
   }
 
+  transformData(data: StudentObservationAttribute[]): Category[] {
+    const groupedData: { [key: string]: Category } = {};
+  
+    data.forEach(item => {
+      if (!groupedData[item.studentObservationCategoryName || 'Unknown']) {
+        groupedData[item.studentObservationCategoryName || 'Unknown'] = {
+          categoryName: item.studentObservationCategoryName || 'Unknown',
+          subCategories: []
+        };
+      }
+  
+      const category = groupedData[item.studentObservationCategoryName || 'Unknown'];
+  
+      let subCategory = category.subCategories.find(
+        sub => sub.subCategoryName === item.studentObservationSubCategoryName
+      );
+  
+      if (!subCategory) {
+        subCategory = {
+          subCategoryName: item.studentObservationSubCategoryName || 'Unknown',
+          attributes: []
+        };
+        category.subCategories.push(subCategory);
+      }
+  
+      subCategory.attributes.push(item);
+    });
+  
+    return Object.values(groupedData);
+  }
+
   
 
-      ngOnInit(): void {
-        this.getAllStudentObservationCategory();
-        this.getAllStudentSubObservationCategory();
-        this.getAllStudentObservationAttributes();
+      async ngOnInit(): Promise<void> {
+       await this.getAllStudentObservationCategory();
+       await this.getAllStudentSubObservationCategory();
+       await this.getAllStudentObservationAttributes();
       }
       onCategoryChange(event: any): void {
         this.studentObservationSubCategoryRealData  = this.studentObservationSubCategory.filter(x => x.studentObservationCategoryID ==event) || []
@@ -68,13 +106,29 @@ export class AttributesComponent {
   getAllStudentObservationAttributes(): void {
     this.observationService.getAllStudentObservationAttributes().subscribe({
       next: (res) => {
-        this.studentObservationSubCategory = res;
-        this.groupCategories()
-
+        this.studentObservationattribute = res
+       
+       this.groupCategories()
       },
       error: (err) => {
         console.error('Error fetching observations', err);
       }
+    });
+  }
+  mapNamesToAttributes(
+    attributes: StudentObservationAttribute[],
+    categories: StudentObservationCategory[],
+    subCategories: StudentObservationSubCategoryMasterModel[]
+  ): StudentObservationAttribute[] {
+    return attributes.map(attribute => {
+      const category = categories.find(cat => cat.studentObservationCategoryID === attribute.studentObservationCategoryID);
+      const subCategory = subCategories.find(sub => sub.studentObservationSubCategoryID === attribute.studentObservationSubCategoryID);
+  
+      return {
+        ...attribute,
+        studentObservationCategoryName: category ? category.categoryText : null,
+        studentObservationSubCategoryName: subCategory ? subCategory.subCategory : null
+      };
     });
   }
   getAllStudentObservationCategory(): void {
@@ -122,9 +176,8 @@ export class AttributesComponent {
 
   addOrUpdateSubCategory(): void {
     try{
-      debugger
       this.updatedSubCategories.forEach((attr: any) => {
-        const payload: StudentObservationAttribute = {
+        const payload: any = {
           studentObservationSubCategoryID:  Number(attr.studentObservationSubCategoryID),
           studentObservationCategoryID: Number(attr.studentObservationCategoryID),
           studentObservationAttributeID: null,
@@ -154,14 +207,14 @@ export class AttributesComponent {
   }
   UpdateSubCategory(){
     try{
-        const payload: StudentObservationAttribute = {
+        const payload: any = {
           studentObservationSubCategoryID: this.newAttribute?.studentObservationSubCategoryID,
           studentObservationCategoryID: Number(this.newAttribute.studentObservationCategoryID),
           studentObservationAttributeID: Number(this.selectedObservation?.studentObservationAttributeID),
           createdBy: 'admin',
           updatedBy: 'admin',
-          attribute: '',
-          attributeValue: this.newAttribute.attribute
+          attribute: this.newAttribute.attribute,
+          attributeValue: this.newAttribute.attributeValue
         };
   
         this.observationService.upsertStudentObservationAttribute(payload).subscribe({
@@ -187,7 +240,6 @@ export class AttributesComponent {
   updatedSubCategories : any = [];
   addAttribute() {
   if (this.newAttribute.attribute && this.newAttribute.attributeValue) {
-    debugger
     console.log(this.newAttribute);
     this.updatedSubCategories.push({
       studentObservationAttributeID: null,
@@ -211,9 +263,9 @@ removeSubCategory(index: number) {
     group.isExpanded = !group.isExpanded;
   }
 
-    editObservation(observation: StudentObservationAttribute): void {
+    async editAttribute(observation: StudentObservationAttribute): Promise<void> {
     console.log(observation);
-    
+   await this.onCategoryChange(observation.studentObservationCategoryID)
     this.newAttribute = { ...observation };
     this.selectedObservation = observation;
     this.disable_data = true
@@ -226,7 +278,10 @@ removeSubCategory(index: number) {
       attribute: '',
       attributeValue: '',
       createdBy: '',
-      updatedBy: ''
+      updatedBy: '',
+      isDelete: false,
+      createdDateTime: '',
+      updatedDateTime: null
     };
     this.disable_data = false
     this.selectedObservation = null;
@@ -243,9 +298,8 @@ removeSubCategory(index: number) {
     }
   }
 
-  deleteObservation(observation: StudentObservationAttribute): void {
+  deleteAttribute(observation: StudentObservationAttribute): void {
     if (confirm('Are you sure you want to delete this observation?')) {
-      debugger
       this.observationService.DeleteStudentObservationAttributeByID(observation.studentObservationAttributeID).subscribe({
         next: (res) => {
           console.log('Observation deleted:', res);
@@ -257,4 +311,15 @@ removeSubCategory(index: number) {
       });
     }
   }
+
+
+}
+interface Category {
+  categoryName: string;
+  subCategories: SubCategory[];
+}
+
+interface SubCategory {
+  subCategoryName: string;
+  attributes: StudentObservationAttribute[];
 }

@@ -9,7 +9,10 @@
 .ml-5 {
     margin-left: 5%;
 }
-
+.reqcss{
+    color: red !important;
+    padding: 3px !important;
+}
 .pr-10px {
     padding-right: 10px;
 }

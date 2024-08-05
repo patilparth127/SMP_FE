@@ -1,5 +1,4 @@
 import { Component,  TemplateRef, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { MasterPageComponent } from '../../../components/master-page/master-page.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SubCategoryComponent } from './sub-category/sub-category.component';
@@ -10,6 +9,7 @@ import { LpaComponent } from './lpa/lpa.component';
 import { MailNotificationComponent } from './mail-notification/mail-notification.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { CategoryComponent } from './category/category.component';
+import { MasterPageComponent } from '../../components/master-page/master-page.component';
 
 @Component({
   standalone: true,

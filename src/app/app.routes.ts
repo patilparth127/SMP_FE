@@ -16,7 +16,7 @@ import { StaffListComponent } from './modules/staff-master/staff-list/staff-list
 import { StudentDetailsComponent } from './modules/student-master/student-details/student-details.component';
 import { StudentListComponent } from './modules/student-master/student-list/student-list.component';
 import { StudentRegistrationFormComponent } from './modules/student-master/student-registration/student-registration-form/student-registration-form.component';
-import { ObservationComponent } from './modules/staff-master/observation/observation.component';
+import { ObservationComponent } from './modules/observation/observation.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },

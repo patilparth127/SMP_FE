@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ObservationService } from '../../../../services/master/observation.service';
-import { StudentObservationSubCategoryMasterModel, StudentObservationCategory,StudentObservationAttribute } from '../../../../interfaces/observation';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { StudentObservationSubCategoryMasterModel, StudentObservationAttribute, StudentObservationCategory } from '../../../interfaces/observation';
+import { ObservationService } from '../../../services/master/observation.service';
 
 @Component({
   standalone:true,

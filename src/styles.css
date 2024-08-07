@@ -1,3 +1,4 @@
+@import "../node_modules/ngx-toastr/toastr.css";
 .ml-2 {
     margin-left: 2%;
 }
@@ -53,3 +54,9 @@ select[disabled] {
 .text-white{
     color: white !important;
 }
+
+.error-message {
+    color: #b80000 !important;
+    font-size: smaller !important;
+    margin-top: 2px !important;
+  }

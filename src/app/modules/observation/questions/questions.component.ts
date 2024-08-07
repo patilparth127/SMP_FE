@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { StudentObservationCategory, StudentObservationQuestionMasterModel, StudentQuestionObservation } from '../../../interfaces/observation';
-import { ObservationService } from '../../../services/master/observation.service';
+import { ErrorHandlingDirective } from '../../../comman/error-handling.directive';
+import { AlertService } from '../../../comman/alert.service';
+import { FormStateService } from '../../../comman/formstate.service';
+import { ObservationService } from '../../../services/Observation/observation.service';
 
 @Component({
   standalone:true,
   selector: 'app-questions',
-  imports : [CommonModule,FormsModule],
+  imports : [CommonModule,FormsModule,ErrorHandlingDirective],
   templateUrl: './questions.component.html',
   styleUrls: ['./questions.component.css']
 })
@@ -16,24 +19,25 @@ export class QuestionsComponent {
   studentObservationQuestionMasterModel: StudentObservationQuestionMasterModel[] = [];
   newObservation: StudentQuestionObservation = {
     StudentObservationQuestionID: null,
-    StudentObservationCategoryID: 0,
+    StudentObservationCategoryID: null,
     Question: '',
-    QuestionSrNo: 0,
+    QuestionSrNo: null,
     QuestionDescription: '',
-    IsQuestionCompulsory: false,
+    IsQuestionCompulsory: null,
     CreatedBy: '',
     UpdatedBy: ''
   };
+  @ViewChild("questionsForm") questionsForm: NgForm | any;
   disable_data = false;
   selectedObservation: StudentQuestionObservation | null = null;
 
-  constructor(private observationService: ObservationService) { }
+  constructor(private observationService: ObservationService,private alertService : AlertService,
+    private formStateService: FormStateService) { }
 
   ngOnInit(): void {
     this.getAllStudentObservationCategory();
     this.getAllStudentObservationQuestions();
-    
-
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
   mapCategoryText() {
     // Create a map from studentObservationCategory array for quick lookup
@@ -85,6 +89,11 @@ console.log('studentObservationCategory',this.studentObservationCategory);
 
   addOrUpdateQuestions(): void {
     try {
+      if (this.questionsForm.form.invalid) {
+        this.questionsForm.form.markAllAsTouched();
+        this.formStateService.markAllAsTouched();
+        return;
+      }
       const payload: StudentQuestionObservation = {
         StudentObservationQuestionID: null,
         StudentObservationCategoryID: this.newObservation.StudentObservationCategoryID,
@@ -96,7 +105,11 @@ console.log('studentObservationCategory',this.studentObservationCategory);
         UpdatedBy: 'admin'
       };
       this.observationService.upsertStudentObservationQuestion(payload).subscribe({
-        next: (res) => { },
+        next: (res) => {
+          this.getAllStudentObservationQuestions();
+          this.alertService.showToast( "observation Question Created Successfully");
+          this.questionsForm.form.reset()
+         },
         error: (err) => {
           console.error('Error submitting observation', err);
         }
@@ -105,11 +118,17 @@ console.log('studentObservationCategory',this.studentObservationCategory);
       console.log(err);
     } finally {
       this.resetForm();
+      this.questionsForm.form.reset()
     }
   }
 
   UpdateSubCategory() {
     try {
+      if (this.questionsForm.form.invalid) {
+        this.questionsForm.form.markAllAsTouched();
+        this.formStateService.markAllAsTouched();
+        return;
+      }
       const payload: StudentQuestionObservation = {
         StudentObservationQuestionID: this.selectedObservation?.StudentObservationQuestionID || null,
         StudentObservationCategoryID: this.newObservation.StudentObservationCategoryID,
@@ -122,7 +141,9 @@ console.log('studentObservationCategory',this.studentObservationCategory);
       };
       this.observationService.upsertStudentObservationQuestion(payload).subscribe({
         next: (res) => {
-          this.resetForm();
+          this.getAllStudentObservationQuestions();
+          this.alertService.showToast( "observation Question Updated Successfully");
+          this.questionsForm.form.reset()
         },
         error: (err) => {
           console.error('Error submitting observation', err);
@@ -132,21 +153,19 @@ console.log('studentObservationCategory',this.studentObservationCategory);
       console.log(err);
     } finally {
       this.resetForm();
+      this.questionsForm.form.reset()
     }
   }
   editableopan : boolean =false
   editableopanupdate : boolean =false
   handleCheckboxChange(event: any, observation: StudentObservationQuestionMasterModel) {
-    // Check if the checkbox is being checked
     if (event.target.checked) {
-      // Uncheck all other checkboxes
       this.studentObservationQuestionMasterModel.forEach(item => {
         if (item !== observation) {
           item.isSelected = false;
         }
       });
   
-      // Update the selected observation
       this.newObservation = {
         StudentObservationQuestionID: observation.studentObservationQuestionID,
         StudentObservationCategoryID: Number(observation.studentObservationCategoryID) || null,
@@ -158,20 +177,19 @@ console.log('studentObservationCategory',this.studentObservationCategory);
         UpdatedBy: 'admin'
       };
       this.selectedObservation = this.newObservation;
-      observation.isSelected = true; // Mark the current checkbox as selected
+      observation.isSelected = true;
       this.disable_data = true;
       this.editableopan = true
       this.editableopanupdate = false
     } else {
-      // If the checkbox is being unchecked, reset the selection
       observation.isSelected = false;
       this.newObservation = {
         StudentObservationQuestionID: null,
-        StudentObservationCategoryID: 0,
+        StudentObservationCategoryID: null,
         Question: '',
-        QuestionSrNo: 0,
+        QuestionSrNo: null,
         QuestionDescription: '',
-        IsQuestionCompulsory: false,
+        IsQuestionCompulsory: null,
         CreatedBy: '',
         UpdatedBy: ''
       };
@@ -179,7 +197,6 @@ console.log('studentObservationCategory',this.studentObservationCategory);
       this.resetForm()
     }
   
-    // Update form state
 
   }
   
@@ -189,41 +206,55 @@ console.log('studentObservationCategory',this.studentObservationCategory);
   }
 
   resetForm(): void {
-    this.newObservation = {
-      StudentObservationQuestionID: null,
-      StudentObservationCategoryID: 0,
-      Question: '',
-      QuestionSrNo: 0,
-      QuestionDescription: '',
-      IsQuestionCompulsory: false,
-      CreatedBy: '',
-      UpdatedBy: ''
-    };
+
+    // this.newObservation = {
+    //   StudentObservationQuestionID: null,
+    //   StudentObservationCategoryID: null,
+    //   Question: '',
+    //   QuestionSrNo: null,
+    //   QuestionDescription: '',
+    //   IsQuestionCompulsory: false,
+    //   CreatedBy: '',
+    //   UpdatedBy: ''
+    // };
     this.editableopan =false
     this.editableopanupdate =false
     this.disable_data = false;
     this.selectedObservation = null;
     this.getAllStudentObservationQuestions()
+    this.questionsForm.form.reset()
   }
-
 
   deleteObservation(): void {
-    if (confirm('Are you sure you want to delete this observation?')) {
-      if (this.selectedObservation) {
-        this.observationService.deleteStudentObservationQuestionByID(this.selectedObservation.StudentObservationQuestionID).subscribe({
-          next: (res) => {
-            console.log('Observation deleted:', res);
-     
-            this.resetForm(); // Reset the form after deletion
-          },
-          error: (err) => {
-            console.error('Error deleting observation:', err);
-          }
-        });
-      } else {
-        console.warn('No observation selected for deletion.');
+    this.alertService.confirmBox(
+      'Are you sure?',
+      'You will not be able to recover this observation Question!',
+      'warning',
+      true,
+      'Yes, delete it!',
+      'Cancel'
+    ).then((result) => {
+      if (result.value) {
+        if (this.selectedObservation) {
+          this.observationService.deleteStudentObservationQuestionByID(this.selectedObservation.StudentObservationQuestionID).subscribe({
+            next: (res) => {
+              console.log('Observation Question deleted:', res);
+              this.resetForm(); // Reset the form after deletion
+              this.alertService.showToast('Observation Question successfully deleted.', 'success');
+              this.questionsForm.form.reset()
+            },
+            error: (err) => {
+              console.error('Error deleting observation Question:', err);
+              this.alertService.showToast('Error deleting observation Question.', 'error');
+            }
+          });
+        } else {
+          console.warn('No observation Question selected for deletion.');
+          this.alertService.showToast('No observation Question selected for deletion.', 'warning');
+        }
       }
-    }
+    });
   }
+  
   
 }

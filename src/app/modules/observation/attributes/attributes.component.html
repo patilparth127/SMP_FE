@@ -7,36 +7,43 @@
   <!-- end card header -->
   <div class="card">
   <div class="card-body">
-    <div class="row">
-      <div class="col-xxl-5 col-md-6">
-          <label for="categoryInput" class="form-label"
-            >Category<span class="reqcss">*</span></label
-          >
-                    <select
-            class="form-select mb-3"
+    <form    #attributeFormData="ngForm">
+      <div class="row">
+        <div class="col-xxl-5 col-md-6">
+          <label for="categoryInput" class="form-label">
+            Category<span class="reqcss">*</span>
+          </label>
+          <select
+            class="form-select"
+            appErrorHandling
+            required
+            [disabled]="isFieldDisabled"
+            name="studentObservationCategoryID"
             [(ngModel)]="newAttribute.studentObservationCategoryID"
             aria-label="Default select example"
             (change)="onCategoryChange(newAttribute.studentObservationCategoryID)"
-            >
-            <option selected>Select your Status</option>
-            <option
-                *ngFor="let item of studentObservationCategory"
-                [value]="item.studentObservationCategoryID"
-            >
-                {{ item.categoryText }}
-            </option>
-            </select>
-      </div>
-      <div class="col-xxl-5 col-md-6">
-          <label for="categoryInput" class="form-label"
-            >Sub Category<span class="reqcss">*</span></label
           >
+            <option
+              *ngFor="let item of studentObservationCategory"
+              [value]="item.studentObservationCategoryID"
+            >
+              {{ item.categoryText }}
+            </option>
+          </select>
+        </div>
+        <div class="col-xxl-5 col-md-6">
+          <label for="categoryInput" class="form-label">
+            Sub Category<span class="reqcss">*</span>
+          </label>
           <select
-            class="form-select mb-3"
+            class="form-select"
+            appErrorHandling
+            [disabled]="isFieldDisabled"
+            required
+            name="studentObservationSubCategoryID"
             [(ngModel)]="newAttribute.studentObservationSubCategoryID"
             aria-label="Default select example"
           >
-            <option selected>Select your Status</option>
             <option
               *ngFor="let item of studentObservationSubCategoryRealData"
               [value]="item.studentObservationSubCategoryID"
@@ -45,14 +52,16 @@
             </option>
           </select>
         </div>
-    </div>
+      </div>
+      
     <div class="row">
         <div class="col-xxl-5 col-md-6">
           <label for="categoryInput" class="form-label">
             Attribute<span class="reqcss">*</span>
           </label>
           <input
-            type="text"
+            type="text" name="attribute"
+            appErrorHandling required
             class="form-control"
             id="categoryInput"
             [(ngModel)]="newAttribute.attribute"
@@ -63,7 +72,8 @@
             Attribute Value<span class="reqcss">*</span>
           </label>
           <input
-            type="number"
+            type="number" name="attributeValue"
+            appErrorHandling required
             class="form-control"
             id="categoryInput"
             [(ngModel)]="newAttribute.attributeValue"
@@ -78,6 +88,7 @@
           </div>
         </div>
       </div>
+    </form>
       <br>
       <div class="row" *ngIf="!disable_data">
         <div class="col-lg-10">
@@ -117,6 +128,7 @@
       ></label>
       <div class="hstack gap-2">
         <button
+        [disabled]="updatedSubCategories?.length == 0"
           type="button"
           *ngIf="!disable_data"
           class="btn btn-success"

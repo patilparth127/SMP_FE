@@ -31,18 +31,20 @@ import { MasterPageComponent } from '../../components/master-page/master-page.co
   templateUrl: './observation.component.html',
   styleUrls: ['./observation.component.css'],
 })
-export class ObservationComponent implements OnInit {
-  tabs: any[] = [];
-constructor(private cdr: ChangeDetectorRef){}
+export class ObservationComponent {
+
   @ViewChild('categoryTemplate') categoryTemplate!: TemplateRef<any>;
   @ViewChild('subCategoryTemplate') subCategoryTemplate!: TemplateRef<any>;
   @ViewChild('attributesTemplate') attributesTemplate!: TemplateRef<any>;
   @ViewChild('questionsTemplate') questionsTemplate!: TemplateRef<any>;
-  @ViewChild('mailNotificationTemplate')
-  mailNotificationTemplate!: TemplateRef<any>;
+  @ViewChild('mailNotificationTemplate') mailNotificationTemplate!: TemplateRef<any>;
   @ViewChild('goalSkillTemplate') goalSkillTemplate!: TemplateRef<any>;
   @ViewChild('goalSubSkillTemplate') goalSubSkillTemplate!: TemplateRef<any>;
   @ViewChild('lpaTemplate') lpaTemplate!: TemplateRef<any>;
+
+  tabs: any[] = [];
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -95,71 +97,14 @@ constructor(private cdr: ChangeDetectorRef){}
           template: this.lpaTemplate,
           active: false,
         },
-      ]
-      this.cdr.detectChanges(); 
+      ];
+      this.cdr.detectChanges();
     }, 100);
-    this.tabs = [
-      {
-        id: 'base-justified-home',
-        title: 'Category',
-        template: this.categoryTemplate,
-        active: true,
-      },
-      {
-        id: 'base-justified-product',
-        title: 'Sub Category',
-        template: this.subCategoryTemplate,
-        active: false,
-      },
-      {
-        id: 'base-justified-messages',
-        title: 'Attributes',
-        template: this.attributesTemplate,
-        active: false,
-      },
-      {
-        id: 'base-justified-settings',
-        title: 'Questions',
-        template: this.questionsTemplate,
-        active: false,
-      },
-      {
-        id: 'base-justified-settings',
-        title: 'Mail Notification',
-        template: this.mailNotificationTemplate,
-        active: false,
-      },
-      {
-        id: 'base-justified-settings',
-        title: 'Goal Skill',
-        template: this.goalSkillTemplate,
-        active: false,
-      },
-      {
-        id: 'base-justified-settings',
-        title: 'Goal Sub Skill',
-        template: this.goalSubSkillTemplate,
-        active: false,
-      },
-      {
-        id: 'base-justified-settings',
-        title: 'LPA',
-        template: this.lpaTemplate,
-        active: false,
-      },
-    ];
-    console.log(this.tabs);
   }
 
-  ngOnInit() {
-    this.tabs = []
-  }
-
-
-  setActiveTab(tab: any) {
-    console.log(tab);
-    
-    this.tabs.forEach((t) => (t.active = false));
+  onTabChange(tab : any): void {
+    this.tabs.forEach(t => t.active = false);
     tab.active = true;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

@@ -1,18 +1,24 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { StudentObservationSubCategoryMasterModel, StudentObservationAttribute, StudentObservationCategory } from '../../../interfaces/observation';
-import { ObservationService } from '../../../services/master/observation.service';
+import { ErrorHandlingDirective } from '../../../comman/error-handling.directive';
+import { FormStateService } from '../../../comman/formstate.service';
+import { AlertService } from '../../../comman/alert.service';
+import { ObservationService } from '../../../services/Observation/observation.service';
 
 @Component({
   standalone:true,
   selector: 'app-attributes',
-  imports : [CommonModule,FormsModule],
+  imports : [CommonModule,FormsModule,ErrorHandlingDirective],
   templateUrl: './attributes.component.html',
   styleUrls: ['./attributes.component.css']
 })
-export class AttributesComponent {
-  constructor(private observationService: ObservationService) { }
+export class AttributesComponent implements OnInit{
+  constructor(private observationService: ObservationService, private formStateService: FormStateService,
+    private alertService : AlertService) { }
+  
+  @ViewChild("attributeFormData") attributeFormData: NgForm | any;
 
   studentObservationSubCategory: StudentObservationSubCategoryMasterModel[] = [];
   studentObservationSubCategoryRealData: StudentObservationSubCategoryMasterModel[] = [];
@@ -20,8 +26,8 @@ export class AttributesComponent {
   studentObservationCategory : StudentObservationCategory[] = []
   newAttribute: StudentObservationAttribute = {
     studentObservationAttributeID: null,
-    studentObservationCategoryID: 0,
-    studentObservationSubCategoryID: 0,
+    studentObservationCategoryID: null,
+    studentObservationSubCategoryID: null,
     attribute: '',
     attributeValue: '',
     createdBy: '',
@@ -36,7 +42,8 @@ export class AttributesComponent {
   groupedStudentObservationSubCategory: any = [];
   subCategories: string[] = [];
   UpdatedSubCategories : any = []
-  transformedData : any
+  transformedData : any;
+  isFieldDisabled : boolean = false
   groupCategories(): void {
     let data = this.mapNamesToAttributes(this.studentObservationattribute,this.studentObservationCategory,this.studentObservationSubCategory)
     console.log('data',data);
@@ -97,6 +104,8 @@ export class AttributesComponent {
        await this.getAllStudentObservationCategory();
        await this.getAllStudentSubObservationCategory();
        await this.getAllStudentObservationAttributes();
+       window.scrollTo({ top: 0, behavior: 'smooth' });
+
       }
       onCategoryChange(event: any): void {
         this.studentObservationSubCategoryRealData  = this.studentObservationSubCategory.filter(x => x.studentObservationCategoryID ==event) || []
@@ -189,6 +198,14 @@ export class AttributesComponent {
   
         this.observationService.upsertStudentObservationAttribute(payload).subscribe({
           next: (res) => {
+            let message =  'Observation Attribute Created Successfully'
+            this.alertService.showToast(message, 'success');
+          this.isFieldDisabled=false
+          this.updatedSubCategories = []
+          this.getAllStudentObservationAttributes();
+          this.resetForm()
+          this.groupCategories()
+          this.attributeFormData.form.reset()
           },
           error: (err) => {
             console.error('Error submitting observation', err);
@@ -200,9 +217,9 @@ export class AttributesComponent {
       console.log(err);
       
     }finally{
-      this.resetForm();
-      this.getAllStudentObservationAttributes(); // Refresh list
-      this.groupCategories()
+      //this.resetForm();
+      this.attributeFormData.form.reset()
+      this.isFieldDisabled=false
     }
   }
   UpdateSubCategory(){
@@ -219,9 +236,11 @@ export class AttributesComponent {
   
         this.observationService.upsertStudentObservationAttribute(payload).subscribe({
           next: (res) => {
-            this.resetForm();
+            let message =   'Observation Attribute Updated Successfully'
+            this.alertService.showToast(message, 'success');
             this.getAllStudentObservationAttributes(); // Refresh list
             this.groupCategories()
+            this.attributeFormData.form.reset()
           },
           error: (err) => {
             console.error('Error submitting observation', err);
@@ -233,12 +252,18 @@ export class AttributesComponent {
       
     }finally{
       this.getAllStudentObservationAttributes(); // Refresh list
+      this.attributeFormData.form.reset()
       this.groupCategories()
       this.resetForm();
     }
   }
   updatedSubCategories : any = [];
   addAttribute() {
+    if (this.attributeFormData.form.invalid) {
+      this.attributeFormData.form.markAllAsTouched();
+      this.formStateService.markAllAsTouched();
+      return;
+    }
   if (this.newAttribute.attribute && this.newAttribute.attributeValue) {
     console.log(this.newAttribute);
     this.updatedSubCategories.push({
@@ -250,12 +275,21 @@ export class AttributesComponent {
       createdBy: '',
       updatedBy: ''
     });
- 
-    this.newAttribute.attribute = '';
-    this.newAttribute.attributeValue = '';
+    this.clearField('attribute')
+    this.clearField('attributeValue')
+    this.isFieldDisabled=true
+    // this.newAttribute.attribute = '';
+    // this.newAttribute.attributeValue = '';
   }
 }
-
+clearField(fieldName: string) {
+  if (this.attributeFormData) {
+    const control = this.attributeFormData.controls[fieldName];
+    if (control) {
+      control.reset(); // Clear the field value
+    }
+  }
+}
 removeSubCategory(index: number) {
   this.updatedSubCategories.splice(index, 1);
 }
@@ -271,23 +305,25 @@ removeSubCategory(index: number) {
     this.disable_data = true
   }
   resetForm(): void {
-    this.newAttribute = {
-      studentObservationAttributeID: null,
-      studentObservationCategoryID: 0,
-      studentObservationSubCategoryID: 0,
-      attribute: '',
-      attributeValue: '',
-      createdBy: '',
-      updatedBy: '',
-      isDelete: false,
-      createdDateTime: '',
-      updatedDateTime: null
-    };
+    // this.newAttribute = {
+    //   studentObservationAttributeID: null,
+    //   studentObservationCategoryID: null,
+    //   studentObservationSubCategoryID: null,
+    //   attribute: '',
+    //   attributeValue: '',
+    //   createdBy: '',
+    //   updatedBy: '',
+    //   isDelete: false,
+    //   createdDateTime: '',
+    //   updatedDateTime: null
+    // };
+    this.attributeFormData.form.reset()
     this.disable_data = false
     this.selectedObservation = null;
     this.subCategories = [];
     this.groupedStudentObservationSubCategory = []
     this.updatedSubCategories = []
+    this.isFieldDisabled=false
   }
 
   updateObservation(): void {
@@ -299,18 +335,30 @@ removeSubCategory(index: number) {
   }
 
   deleteAttribute(observation: StudentObservationAttribute): void {
-    if (confirm('Are you sure you want to delete this observation?')) {
-      this.observationService.DeleteStudentObservationAttributeByID(observation.studentObservationAttributeID).subscribe({
-        next: (res) => {
-          console.log('Observation deleted:', res);
-          this.getAllStudentObservationAttributes();
-        },
-        error: (err) => {
-          console.error('Error deleting observation', err);
-        }
-      });
-    }
+    this.alertService.confirmBox(
+      'Are you sure?',
+      'You will not be able to recover this observation!',
+      'warning',
+      true,
+      'Yes, delete it!',
+      'Cancel'
+    ).then((result) => {
+      if (result.value) {
+        this.observationService.DeleteStudentObservationAttributeByID(observation.studentObservationAttributeID).subscribe({
+          next: (res) => {
+            console.log('Observation deleted:', res);
+            this.getAllStudentObservationAttributes(); // Refresh the list
+            this.alertService.showToast('Your observation has been deleted.', 'success');
+          },
+          error: (err) => {
+            console.error('Error deleting observation', err);
+            this.alertService.showToast('There was a problem deleting the observation.', 'error');
+          }
+        });
+      }
+    });
   }
+  
 
 
 }

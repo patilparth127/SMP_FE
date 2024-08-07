@@ -1,6 +1,6 @@
 export interface StudentObservationCategory {
     studentObservationCategoryID: number;
-    categoryText: string;
+    categoryText: any;
     showToParentnStudent: boolean;
     mailSendToHRT: boolean;
     isDelete: boolean;
@@ -9,7 +9,7 @@ export interface StudentObservationCategory {
   }
   export interface StudentObservationSubCategoryMasterModel {
     studentObservationSubCategoryID: number;
-    studentObservationCategoryID: number;
+    studentObservationCategoryID: any;
     subCategory: string;
     isDelete?: boolean;
     createdBy?: string;
@@ -31,9 +31,9 @@ export interface StudentObservationAttributeMasterModel {
 }
 export interface StudentObservationAttribute {
   studentObservationAttributeID?: number|null;
-  studentObservationCategoryID: number;
+  studentObservationCategoryID: any;
   studentObservationCategoryName?: string | null;
-  studentObservationSubCategoryID: number;
+  studentObservationSubCategoryID: any;
   studentObservationSubCategoryName?: string | null;
   attribute: string;
   attributeValue: string;
